@@ -30,7 +30,7 @@ export function AppHeader() {
         </Sheet>
       </div>
       <div className="flex-1" />
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 md:hidden">
         <LocaleToggle />
         <ThemeToggle />
       </div>

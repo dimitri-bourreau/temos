@@ -11,13 +11,20 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { ThemeToggle } from "@/components/molecules/theme-toggle";
+import { LocaleToggle } from "@/components/molecules/locale-toggle";
 
 const navItems = [
   { href: "/", icon: LayoutDashboard, labelKey: "dashboard" as const },
   { href: "/entries", icon: Clock, labelKey: "entries" as const },
   { href: "/statistics", icon: BarChart3, labelKey: "statistics" as const },
-  { href: "/settings", icon: Settings, labelKey: "settings" as const },
 ];
+
+const settingsItem = {
+  href: "/settings",
+  icon: Settings,
+  labelKey: "settings" as const,
+};
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -31,29 +38,48 @@ export function AppSidebar() {
           Temos
         </span>
       </div>
-      <nav className="flex-1 space-y-1 p-3">
-        {navItems.map((item) => {
-          const isActive =
-            item.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.href);
+      <nav className="flex flex-1 flex-col p-3">
+        <div className="space-y-1">
+          {navItems.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-                isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground hover:translate-x-0.5"
-              )}
-            >
-              <item.icon className="h-4 w-4" />
-              {t(item.labelKey)}
-            </Link>
-          );
-        })}
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                  isActive
+                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                    : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground hover:translate-x-0.5",
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {t(item.labelKey)}
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="mt-auto flex items-center gap-1">
+          <Link
+            href={settingsItem.href}
+            className={cn(
+              "flex flex-1 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+              pathname.startsWith(settingsItem.href)
+                ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground hover:translate-x-0.5",
+            )}
+          >
+            <settingsItem.icon className="h-4 w-4" />
+            {t(settingsItem.labelKey)}
+          </Link>
+          <LocaleToggle />
+          <ThemeToggle />
+        </div>
       </nav>
     </aside>
   );
