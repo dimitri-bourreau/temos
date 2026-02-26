@@ -4,9 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
-  Calendar,
   Clock,
-  Tag,
   BarChart3,
   Settings,
   Timer,
@@ -16,9 +14,7 @@ import { useTranslations } from "next-intl";
 
 const navItems = [
   { href: "/", icon: LayoutDashboard, labelKey: "dashboard" as const },
-  { href: "/calendar", icon: Calendar, labelKey: "calendar" as const },
   { href: "/entries", icon: Clock, labelKey: "entries" as const },
-  { href: "/categories", icon: Tag, labelKey: "categories" as const },
   { href: "/statistics", icon: BarChart3, labelKey: "statistics" as const },
   { href: "/settings", icon: Settings, labelKey: "settings" as const },
 ];

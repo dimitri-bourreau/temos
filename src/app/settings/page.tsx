@@ -1,24 +1,49 @@
 "use client";
 
+import { useState } from "react";
 import { AppShell } from "@/components/templates/app-shell";
 import { WorkScheduleForm } from "@/components/organisms/work-schedule-form";
 import { DataManager } from "@/components/organisms/data-manager";
+import { CategoryList } from "@/components/organisms/category-list";
+import { CategoryForm } from "@/components/organisms/category-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Sun, Moon, Monitor, Globe } from "lucide-react";
+import { Sun, Moon, Monitor, Globe, Plus } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useSettingsStore } from "@/features/settings/store";
+import { useCategoriesStore } from "@/features/categories/store";
 import { resolveAndSetLocaleCookie } from "@/features/settings/services/set-locale-cookie";
+import type { Category } from "@/types";
 
 export default function SettingsPage() {
   const t = useTranslations("settings");
+  const tCat = useTranslations("categories");
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const settings = useSettingsStore((s) => s.settings);
   const updateSettings = useSettingsStore((s) => s.update);
+  const addCategory = useCategoriesStore((s) => s.add);
+  const updateCategory = useCategoriesStore((s) => s.update);
+
+  const [categoryFormOpen, setCategoryFormOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+
+  const handleEditCategory = (category: Category) => {
+    setEditingCategory(category);
+    setCategoryFormOpen(true);
+  };
+
+  const handleCategorySubmit = async (data: { name: string; color: string; icon: string }) => {
+    if (editingCategory) {
+      await updateCategory(editingCategory.id, data);
+    } else {
+      await addCategory(data);
+    }
+    setEditingCategory(null);
+  };
 
   const switchLocale = async (locale: "en" | "fr" | "system") => {
     await updateSettings({ locale });
@@ -91,6 +116,35 @@ export default function SettingsPage() {
             </div>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-3">
+            <CardTitle className="text-base">{tCat("title")}</CardTitle>
+            <Button
+              size="sm"
+              onClick={() => {
+                setEditingCategory(null);
+                setCategoryFormOpen(true);
+              }}
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              {tCat("new")}
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <CategoryList onEdit={handleEditCategory} />
+          </CardContent>
+        </Card>
+
+        <CategoryForm
+          open={categoryFormOpen}
+          onOpenChange={(open) => {
+            setCategoryFormOpen(open);
+            if (!open) setEditingCategory(null);
+          }}
+          onSubmit={handleCategorySubmit}
+          category={editingCategory}
+        />
 
         <DataManager />
       </div>

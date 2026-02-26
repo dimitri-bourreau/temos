@@ -1,11 +1,6 @@
 import type { Category, UserSettings } from "@/types";
 
-export const DEFAULT_CATEGORIES: Omit<Category, "id" | "createdAt" | "updatedAt">[] = [
-  { name: "Development", color: "#7EC8E3", icon: "code" },
-  { name: "Meetings", color: "#C3A6E0", icon: "users" },
-  { name: "Design", color: "#F7C59F", icon: "palette" },
-  { name: "Learning", color: "#A8D8A8", icon: "book-open" },
-];
+export const DEFAULT_CATEGORIES: Omit<Category, "id" | "createdAt" | "updatedAt">[] = [];
 
 export const DEFAULT_SETTINGS: UserSettings = {
   id: "default",

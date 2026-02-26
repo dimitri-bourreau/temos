@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { TemosDB } from "@/db";
 import { seedDefaultCategories } from "./seed-default-categories";
-import { DEFAULT_CATEGORIES } from "@/lib/constants";
 
 describe("seedDefaultCategories", () => {
   let db: TemosDB;
@@ -11,19 +10,24 @@ describe("seedDefaultCategories", () => {
     await db.categories.clear();
   });
 
-  it("seeds default categories when db is empty", async () => {
+  it("returns empty array when db is empty", async () => {
     const categories = await seedDefaultCategories(db);
-    expect(categories).toHaveLength(DEFAULT_CATEGORIES.length);
-    expect(categories[0].name).toBe(DEFAULT_CATEGORIES[0].name);
+    expect(categories).toHaveLength(0);
   });
 
-  it("does not seed if categories already exist", async () => {
-    await seedDefaultCategories(db);
-    const firstCount = await db.categories.count();
+  it("returns existing categories", async () => {
+    const now = new Date().toISOString();
+    await db.categories.add({
+      id: "test-id",
+      name: "Test",
+      color: "#000",
+      icon: "code",
+      createdAt: now,
+      updatedAt: now,
+    });
 
-    await seedDefaultCategories(db);
-    const secondCount = await db.categories.count();
-
-    expect(secondCount).toBe(firstCount);
+    const categories = await seedDefaultCategories(db);
+    expect(categories).toHaveLength(1);
+    expect(categories[0].name).toBe("Test");
   });
 });
