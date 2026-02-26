@@ -3,6 +3,7 @@
 import { AppSidebar } from "@/components/organisms/app-sidebar";
 import { AppHeader } from "@/components/organisms/app-header";
 import { MobileNav } from "@/components/organisms/mobile-nav";
+import { FloatingTimerBar } from "@/components/organisms/floating-timer-bar";
 import { PageTransition } from "./page-transition";
 import { useEffect } from "react";
 import { useEntriesStore } from "@/features/entries/store";
@@ -47,6 +48,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           )}
         </main>
+        <FloatingTimerBar />
         <MobileNav />
       </div>
     </div>

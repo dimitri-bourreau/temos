@@ -1,0 +1,90 @@
+"use client";
+
+import { Square } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
+import { useTimer } from "@/features/timer/hook";
+import { useCategoriesStore } from "@/features/categories/store";
+import { useTasksStore } from "@/features/tasks/store";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ColorSwatch } from "@/components/atoms/color-swatch";
+
+function formatElapsed(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1000);
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+}
+
+export function FloatingTimerBar() {
+  const t = useTranslations("timer");
+  const { isRunning, elapsed, categoryId, taskId, note, setNote, stop } =
+    useTimer();
+  const categories = useCategoriesStore((s) => s.categories);
+  const tasks = useTasksStore((s) => s.tasks);
+
+  const category = categories.find((c) => c.id === categoryId);
+  const task = tasks.find((tk) => tk.id === taskId);
+
+  return (
+    <AnimatePresence>
+      {isRunning && (
+        <motion.div
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "100%" }}
+          transition={{ type: "spring", damping: 25, stiffness: 300 }}
+          className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 shadow-lg backdrop-blur-sm md:bottom-0 mb-[52px] md:mb-0"
+        >
+          <div className="mx-auto flex max-w-4xl items-center gap-3 px-4 py-3">
+            {/* Task & category info */}
+            <div className="flex shrink-0 items-center gap-2">
+              {category && (
+                <ColorSwatch color={category.color} className="h-3 w-3" />
+              )}
+              <div className="flex flex-col text-sm leading-tight">
+                {task && (
+                  <span className="font-medium">{task.name}</span>
+                )}
+                {category && (
+                  <span className="text-xs text-muted-foreground">
+                    {category.name}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Elapsed time */}
+            <span className="shrink-0 animate-pulse font-mono text-lg font-bold tabular-nums text-primary">
+              {formatElapsed(elapsed)}
+            </span>
+
+            {/* Note input */}
+            <Input
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") stop();
+              }}
+              placeholder={t("notePlaceholder")}
+              className="h-8 flex-1 text-sm"
+            />
+
+            {/* Stop button */}
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={stop}
+              className="shrink-0"
+            >
+              <Square className="mr-1.5 h-3.5 w-3.5" />
+              {t("stop")}
+            </Button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

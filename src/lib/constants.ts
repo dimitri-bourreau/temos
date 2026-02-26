@@ -13,6 +13,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   timerStartedAt: null,
   timerCategoryId: null,
   timerTaskId: null,
+  timerNote: null,
 };
 
 export const PASTEL_COLORS = [

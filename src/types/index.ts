@@ -40,6 +40,7 @@ export interface UserSettings {
   timerStartedAt: string | null;
   timerCategoryId: ID | null;
   timerTaskId: ID | null;
+  timerNote: string | null;
 }
 
 export interface TemosData {

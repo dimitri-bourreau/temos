@@ -100,6 +100,10 @@
     "startTimer": "D\u00e9marrer le chronom\u00e8tre",
     "timerRunning": "Chronom\u00e8tre en cours"
   },
+  "timer": {
+    "notePlaceholder": "Ajouter une note...",
+    "stop": "Arrêter"
+  },
   "settings": {
     "title": "Param\u00e8tres",
     "workSchedule": "Horaires de travail",

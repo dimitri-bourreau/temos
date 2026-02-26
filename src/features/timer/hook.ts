@@ -17,6 +17,7 @@ export function useTimer() {
   const isRunning = settings.timerStartedAt !== null;
   const categoryId = settings.timerCategoryId;
   const taskId = settings.timerTaskId;
+  const note = settings.timerNote ?? "";
 
   useEffect(() => {
     if (!isRunning) {
@@ -44,6 +45,13 @@ export function useTimer() {
     [updateSettings]
   );
 
+  const setNote = useCallback(
+    async (value: string) => {
+      await updateSettings({ timerNote: value });
+    },
+    [updateSettings]
+  );
+
   const stop = useCallback(async () => {
     const entry = await stopTimer(db);
     if (entry) {
@@ -51,11 +59,12 @@ export function useTimer() {
         timerStartedAt: null,
         timerCategoryId: null,
         timerTaskId: null,
+        timerNote: null,
       });
       await loadEntries();
     }
     return entry;
   }, [updateSettings, loadEntries]);
 
-  return { isRunning, elapsed, categoryId, taskId, start, stop };
+  return { isRunning, elapsed, categoryId, taskId, note, setNote, start, stop };
 }
