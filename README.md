@@ -1,92 +1,73 @@
 # Temos
 
-Application personnelle de suivi du temps de travail, inspirée de [Tyme](https://www.tyme-app.com/en/) mais beaucoup plus simple. Toutes les données sont stockées localement dans le navigateur via IndexedDB.
+A personal time tracking app inspired by [Tyme](https://www.tyme-app.com/en/), but much simpler. All data is stored locally in the browser — no account, no server, no tracking.
 
-## Fonctionnalités
+![Temos screenshot](docs/screenshot.png)
 
-- **CRUD tâches de travail** : créer, modifier, supprimer des entrées de temps avec catégorie, description, horaires
-- **CRUD catégories** : organiser les entrées par catégorie avec couleur et icône
-- **Timer rapide** : chronomètre start/stop qui crée automatiquement une entrée
-- **Calendrier** : vue mois et semaine avec blocs colorés par catégorie
-- **Statistiques** : par jour/semaine/mois/année avec graphiques animés (barres, ligne, camembert)
-- **Horaires de travail** : définir heures cible/jour et jours de repos
-- **Export/Import** : toutes les données au format JSON
-- **Thème** : clair, sombre, système (synchro OS)
-- **Langue** : anglais, français, système (synchro OS)
-- **Responsive** : desktop, tablette, mobile
+## Features
 
-## Stack technique
+### Time entries
+- Create, edit and delete time entries with start/end times, category, and description
+- Browse all entries with filters by date range and category
+- Entries are grouped by day for easy scanning
 
-| Domaine | Technologie |
-|---|---|
-| Framework | Next.js 15 (App Router) |
-| UI | shadcn/ui + Radix |
-| CSS | Tailwind CSS v4 |
-| State | Zustand |
-| Persistence | Dexie.js (IndexedDB) |
-| Graphiques | Recharts |
-| Animations | Framer Motion |
-| i18n | next-intl |
-| Thème | next-themes |
-| Tests | Vitest |
+### Quick timer
+- One-click stopwatch that automatically creates a time entry when stopped
+- Pick a category before starting so the entry is ready to save
+- Timer persists across page navigation
 
-## Démarrage
+### Calendar
+- Monthly and weekly views with color-coded blocks per category
+- Navigate between months with arrow buttons or jump to today
+- Visual overview of how time is distributed across the week
+
+### Categories
+- Organize entries by category, each with a custom color and icon
+- Pastel color palette designed for readability in both light and dark themes
+- Create, rename, recolor or delete categories at any time
+
+### Work schedule
+- Define target hours per day and mark rest days
+- Dashboard shows daily progress: worked, remaining, and overtime
+- Adapt the schedule to your own rhythm
+
+### Data export & import
+- Export all data (entries, categories, settings) as a single JSON file
+- Import a previously exported file to restore or migrate data
+- No lock-in: your data is always yours
+
+### Theme & language
+- Light, dark, or system theme (syncs with OS preference)
+- English and French, auto-detected from browser on first visit
+- Switch at any time from the settings page
+
+### Responsive
+- Works on desktop, tablet, and mobile
+- Sidebar collapses into a bottom navigation on small screens
+
+## Getting started
 
 ```bash
-# Installer les dépendances
+# Install dependencies
 npm install
 
-# Lancer le serveur de développement
+# Start the dev server
 npm run dev
-
-# Lancer les tests
-npx vitest run
-
-# Build de production
-npm run build
 ```
 
-Ouvrir [http://localhost:3000](http://localhost:3000).
-
-## Structure du projet
-
-```
-src/
-├── app/                    # Pages (Next.js App Router)
-├── components/
-│   ├── atoms/              # Composants simples réutilisables
-│   ├── molecules/          # Combinaisons d'atomes
-│   ├── organisms/          # Sections de page complètes
-│   ├── templates/          # Layouts de page
-│   └── ui/                 # shadcn/ui
-├── features/               # Logique métier par domaine
-│   ├── entries/services/   # CRUD entrées de temps
-│   ├── categories/services/# CRUD catégories
-│   ├── timer/services/     # Timer start/stop
-│   ├── statistics/services/# Calcul statistiques
-│   ├── settings/services/  # Paramètres utilisateur
-│   └── data-exchange/      # Export/import JSON
-├── db/                     # Base Dexie (IndexedDB)
-├── hooks/                  # Hooks React partagés
-├── lib/                    # Utilitaires
-└── types/                  # Interfaces TypeScript
-i18n/traductions/           # Fichiers de traduction EN/FR
-```
-
-## Architecture
-
-- **Pages** : uniquement du rendu et composition de composants
-- **Composants** : design atomique (atoms -> molecules -> organisms -> templates)
-- **Features** : logique métier par domaine, chaque service = 1 fichier = 1 fonction testée
-- **Persistence** : IndexedDB via Dexie.js, stores Zustand synchronisés
+Then open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-```bash
-npm run dev       # Serveur de développement (Turbopack)
-npm run build     # Build de production
-npm run start     # Lancer le build de production
-npm run lint      # Linter ESLint
-npx vitest run    # Lancer tous les tests
-npx vitest        # Mode watch
-```
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the development server with Turbopack |
+| `npm run build` | Create an optimized production build |
+| `npm run start` | Serve the production build locally |
+| `npm run lint` | Run ESLint on the codebase |
+| `npx vitest run` | Run all tests once |
+| `npx vitest` | Run tests in watch mode |
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
