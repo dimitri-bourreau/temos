@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -8,7 +9,6 @@ import {
   ListTodo,
   BarChart3,
   Settings,
-  Timer,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -62,7 +62,13 @@ export function MobileSidebarContent() {
   return (
     <div className="flex h-full flex-col bg-sidebar">
       <div className="flex h-16 items-center gap-2 border-b border-border px-6">
-        <Timer className="h-6 w-6 text-primary" />
+        <Image
+          src="/logo.jpg"
+          alt="Temos"
+          width={32}
+          height={32}
+          className="size-8 mix-blend-multiply dark:mix-blend-screen rounded-md"
+        />
         <span className="text-lg font-semibold text-sidebar-foreground">
           Temos
         </span>

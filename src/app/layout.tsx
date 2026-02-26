@@ -17,8 +17,42 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Temos",
-  description: "Personal time tracking application",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL ?? "https://temos.app",
+  ),
+  title: {
+    default: "Temos — Personal Time Tracking",
+    template: "%s | Temos",
+  },
+  description:
+    "Track your time effortlessly with Temos, a local-first personal time tracking app. No account needed — all data stays on your device.",
+  keywords: [
+    "time tracking",
+    "productivity",
+    "local-first",
+    "offline",
+    "personal",
+  ],
+  authors: [{ name: "Temos" }],
+  icons: {
+    icon: "/logo.jpg",
+    apple: "/logo.jpg",
+  },
+  openGraph: {
+    title: "Temos — Personal Time Tracking",
+    description:
+      "Track your time effortlessly. Local-first, no account needed — all data stays on your device.",
+    type: "website",
+    locale: "en_US",
+    images: [{ url: "/logo.jpg", width: 512, height: 512, alt: "Temos logo" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Temos — Personal Time Tracking",
+    description:
+      "Track your time effortlessly. Local-first, no account needed.",
+    images: ["/logo.jpg"],
+  },
 };
 
 export default async function RootLayout({
