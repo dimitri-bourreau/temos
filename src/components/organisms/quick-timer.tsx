@@ -50,7 +50,11 @@ export function QuickTimer() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-3">
-            <div className="text-center font-mono text-3xl font-bold tabular-nums">
+            <div
+              className={`text-center font-mono text-3xl font-bold tabular-nums ${
+                isRunning ? "animate-pulse" : ""
+              }`}
+            >
               {formatElapsed(elapsed)}
             </div>
             {!isRunning && (
@@ -76,7 +80,7 @@ export function QuickTimer() {
             <Button
               onClick={isRunning ? stop : handleStart}
               variant={isRunning ? "destructive" : "default"}
-              className="w-full"
+              className="w-full active:scale-95 transition-transform"
             >
               {isRunning ? (
                 <>

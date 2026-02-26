@@ -29,7 +29,7 @@ export function AppSidebar() {
 
   return (
     <aside className="hidden md:flex md:w-64 md:flex-col md:border-r md:border-border bg-sidebar">
-      <div className="flex h-16 items-center gap-2 border-b border-border px-6">
+      <div className="flex h-16 items-center gap-2 border-b border-border bg-linear-to-r from-sidebar to-sidebar-accent/30 px-6">
         <Timer className="h-6 w-6 text-primary" />
         <span className="text-lg font-semibold text-sidebar-foreground">
           Temos
@@ -47,10 +47,10 @@ export function AppSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                 isActive
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
+                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground hover:translate-x-0.5"
               )}
             >
               <item.icon className="h-4 w-4" />

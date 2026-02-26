@@ -40,7 +40,7 @@ export function RecentEntries() {
                 <Link
                   key={entry.id}
                   href={`/entries/${entry.id}/edit`}
-                  className="flex items-center justify-between rounded-lg border border-border p-3 transition-colors hover:bg-muted/50"
+                  className="flex items-center justify-between rounded-lg border border-border p-3 transition-all duration-200 hover:bg-muted/50 hover:shadow-sm hover:border-primary/30"
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-medium">

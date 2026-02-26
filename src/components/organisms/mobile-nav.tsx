@@ -40,13 +40,15 @@ export function MobileNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex flex-col items-center gap-0.5 px-2 py-1 text-xs transition-colors",
+              "flex flex-col items-center gap-0.5 px-2 py-1 text-xs transition-all duration-200",
               isActive
                 ? "text-primary"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            <item.icon className="h-5 w-5" />
+            <item.icon
+              className={cn("h-5 w-5 transition-transform duration-200", isActive && "scale-110")}
+            />
             <span>{t(item.labelKey)}</span>
           </Link>
         );
@@ -79,10 +81,10 @@ export function MobileSidebarContent() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                 isActive
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
+                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground hover:translate-x-0.5"
               )}
             >
               <item.icon className="h-4 w-4" />
