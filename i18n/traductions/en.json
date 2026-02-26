@@ -19,6 +19,7 @@
     "calendar": "Calendar",
     "entries": "Entries",
     "categories": "Categories",
+    "tasks": "Tasks",
     "statistics": "Statistics",
     "settings": "Settings"
   },
@@ -86,6 +87,18 @@
     "week": "Week",
     "month": "Month",
     "year": "Year"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "new": "New Task",
+    "edit": "Edit Task",
+    "name": "Name",
+    "namePlaceholder": "Task name",
+    "noTasks": "No tasks in this category.",
+    "noCategories": "Create a category first to add tasks.",
+    "deleteConfirm": "Are you sure you want to delete this task?",
+    "startTimer": "Start timer",
+    "timerRunning": "Timer running"
   },
   "settings": {
     "title": "Settings",

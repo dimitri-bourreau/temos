@@ -7,6 +7,7 @@ export function validateImport(data: unknown): data is TemosData {
   const d = data as Record<string, unknown>;
   if (d.version !== DATA_VERSION) return false;
   if (!Array.isArray(d.categories)) return false;
+  if (d.tasks !== undefined && !Array.isArray(d.tasks)) return false;
   if (!Array.isArray(d.timeEntries)) return false;
   if (typeof d.settings !== "object" || d.settings === null) return false;
 

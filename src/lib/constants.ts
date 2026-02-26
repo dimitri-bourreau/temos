@@ -12,6 +12,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   locale: "system",
   timerStartedAt: null,
   timerCategoryId: null,
+  timerTaskId: null,
 };
 
 export const PASTEL_COLORS = [

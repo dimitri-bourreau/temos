@@ -9,6 +9,14 @@ export interface Category {
   updatedAt: string;
 }
 
+export interface Task {
+  id: ID;
+  categoryId: ID;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface TimeEntry {
   id: ID;
   categoryId: ID;
@@ -31,12 +39,14 @@ export interface UserSettings {
   locale: "en" | "fr" | "system";
   timerStartedAt: string | null;
   timerCategoryId: ID | null;
+  timerTaskId: ID | null;
 }
 
 export interface TemosData {
   version: 1;
   exportedAt: string;
   categories: Category[];
+  tasks: Task[];
   timeEntries: TimeEntry[];
   settings: UserSettings;
 }

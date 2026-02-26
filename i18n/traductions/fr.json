@@ -19,6 +19,7 @@
     "calendar": "Calendrier",
     "entries": "Entr\u00e9es",
     "categories": "Cat\u00e9gories",
+    "tasks": "T\u00e2ches",
     "statistics": "Statistiques",
     "settings": "Param\u00e8tres"
   },
@@ -86,6 +87,18 @@
     "week": "Semaine",
     "month": "Mois",
     "year": "Ann\u00e9e"
+  },
+  "tasks": {
+    "title": "T\u00e2ches",
+    "new": "Nouvelle t\u00e2che",
+    "edit": "Modifier la t\u00e2che",
+    "name": "Nom",
+    "namePlaceholder": "Nom de la t\u00e2che",
+    "noTasks": "Aucune t\u00e2che dans cette cat\u00e9gorie.",
+    "noCategories": "Cr\u00e9ez d'abord une cat\u00e9gorie pour y ajouter des t\u00e2ches.",
+    "deleteConfirm": "\u00cates-vous s\u00fbr de vouloir supprimer cette t\u00e2che ?",
+    "startTimer": "D\u00e9marrer le chronom\u00e8tre",
+    "timerRunning": "Chronom\u00e8tre en cours"
   },
   "settings": {
     "title": "Param\u00e8tres",
