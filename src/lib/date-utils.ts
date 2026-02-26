@@ -31,6 +31,12 @@ export function formatDurationHMS(minutes: number): string {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+export function formatDurationHHMM(minutes: number): string {
+  const h = Math.floor(Math.abs(minutes) / 60);
+  const m = Math.round(Math.abs(minutes) % 60);
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
 export function formatHoursDecimal(minutes: number): string {
   return (minutes / 60).toFixed(1);
 }

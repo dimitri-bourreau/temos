@@ -1,19 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Play, Square } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCategoriesStore } from "@/features/categories/store";
+import { useTasksStore } from "@/features/tasks/store";
 import { useTimer } from "@/features/timer/hook";
+import type { Task } from "@/types";
 import { ColorSwatch } from "@/components/atoms/color-swatch";
 import { motion } from "framer-motion";
 
@@ -28,15 +32,25 @@ function formatElapsed(ms: number): string {
 export function QuickTimer() {
   const t = useTranslations("dashboard");
   const categories = useCategoriesStore((s) => s.categories);
-  const { isRunning, elapsed, categoryId, start, stop } = useTimer();
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+  const tasks = useTasksStore((s) => s.tasks);
+  const { isRunning, elapsed, start, stop } = useTimer();
+  const [selectedTaskId, setSelectedTaskId] = useState<string>("");
 
   const handleStart = async () => {
-    const catId = selectedCategoryId || categories[0]?.id;
-    if (catId) {
-      await start(catId);
+    const task = tasks.find((tk) => tk.id === selectedTaskId) || tasks[0];
+    if (task) {
+      await start(task.categoryId, task.id);
     }
   };
+
+  const tasksByCategory = useMemo(() => {
+    const map: Record<string, Task[]> = {};
+    for (const task of tasks) {
+      if (!map[task.categoryId]) map[task.categoryId] = [];
+      map[task.categoryId].push(task);
+    }
+    return map;
+  }, [tasks]);
 
   return (
     <motion.div
@@ -57,43 +71,56 @@ export function QuickTimer() {
             >
               {formatElapsed(elapsed)}
             </div>
-            {!isRunning && (
-              <Select
-                value={selectedCategoryId}
-                onValueChange={setSelectedCategoryId}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t("selectCategory")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      <div className="flex items-center gap-2">
-                        <ColorSwatch color={cat.color} className="h-3 w-3" />
-                        {cat.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-            <Button
-              onClick={isRunning ? stop : handleStart}
-              variant={isRunning ? "destructive" : "default"}
-              className="w-full active:scale-95 transition-transform"
-            >
-              {isRunning ? (
-                <>
-                  <Square className="mr-2 h-4 w-4" />
-                  {t("stopTimer")}
-                </>
-              ) : (
-                <>
-                  <Play className="mr-2 h-4 w-4" />
-                  {t("startTimer")}
-                </>
+            <div className="flex items-center gap-2">
+              {!isRunning && (
+                <Select
+                  value={selectedTaskId}
+                  onValueChange={setSelectedTaskId}
+                >
+                  <SelectTrigger className="flex-1">
+                    <SelectValue placeholder={t("selectTask")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((cat) => {
+                      const catTasks = tasksByCategory[cat.id];
+                      if (!catTasks?.length) return null;
+                      return (
+                        <SelectGroup key={cat.id}>
+                          <SelectLabel>
+                            <div className="flex items-center gap-2">
+                              <ColorSwatch
+                                color={cat.color}
+                                className="h-3 w-3"
+                              />
+                              {cat.name}
+                            </div>
+                          </SelectLabel>
+                          {catTasks.map((task) => (
+                            <SelectItem key={task.id} value={task.id}>
+                              {task.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
               )}
-            </Button>
+              <Button
+                onClick={isRunning ? stop : handleStart}
+                variant={isRunning ? "destructive" : "default"}
+                className={`active:scale-95 transition-transform ${isRunning ? "w-full" : ""}`}
+              >
+                {isRunning ? (
+                  <>
+                    <Square className="mr-2 h-4 w-4" />
+                    {t("stopTimer")}
+                  </>
+                ) : (
+                  <Play className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

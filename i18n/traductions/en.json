@@ -35,7 +35,8 @@
     "stopTimer": "Stop Timer",
     "recentEntries": "Recent Entries",
     "noEntriesYet": "No entries yet. Start tracking your time!",
-    "selectCategory": "Select a category"
+    "selectCategory": "Select a category",
+    "selectTask": "Select a task"
   },
   "entries": {
     "title": "Time Entries",

@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { useEntriesStore } from "@/features/entries/store";
 import { useSettingsStore } from "@/features/settings/store";
-import { formatDuration } from "@/lib/date-utils";
+import { formatDurationHHMM } from "@/lib/date-utils";
 import { startOfDay, endOfDay, parseISO, differenceInMinutes } from "date-fns";
 import { motion } from "framer-motion";
 import { Clock, Target, TrendingUp } from "lucide-react";
@@ -55,14 +55,14 @@ export function TodaySummary() {
                 <Clock className="h-3 w-3" />
                 {t("hoursWorked")}
               </div>
-              <p className="text-xl font-bold">{formatDuration(worked)}</p>
+              <p className="text-xl font-bold">{formatDurationHHMM(worked)}</p>
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Target className="h-3 w-3" />
                 {t("hoursTarget")}
               </div>
-              <p className="text-xl font-bold">{formatDuration(target)}</p>
+              <p className="text-xl font-bold">{formatDurationHHMM(target)}</p>
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -74,7 +74,7 @@ export function TodaySummary() {
                   diff >= 0 ? "text-success" : "text-destructive"
                 }`}
               >
-                {formatDuration(Math.abs(diff))}
+                {formatDurationHHMM(Math.abs(diff))}
               </p>
             </div>
           </div>

@@ -8,7 +8,12 @@ import { useEntriesStore } from "@/features/entries/store";
 import { useTasksStore } from "@/features/tasks/store";
 import { CategoryBadge } from "@/components/molecules/category-badge";
 import { EmptyState } from "@/components/atoms/empty-state";
-import { formatDate, formatTime, formatDuration, getEntryDurationMinutes } from "@/lib/date-utils";
+import {
+  formatDate,
+  formatTime,
+  formatDuration,
+  getEntryDurationMinutes,
+} from "@/lib/date-utils";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -23,8 +28,9 @@ export function RecentEntries() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.2 }}
+      className="min-h-0 flex flex-col"
     >
-      <Card>
+      <Card className="flex min-h-0 flex-1 flex-col">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-base">{t("recentEntries")}</CardTitle>
           <Button variant="ghost" size="sm" asChild>
@@ -33,7 +39,7 @@ export function RecentEntries() {
             </Link>
           </Button>
         </CardHeader>
-        <CardContent>
+        <CardContent className="min-h-0 flex-1 overflow-y-auto">
           {recent.length === 0 ? (
             <EmptyState message={t("noEntriesYet")} />
           ) : (
@@ -46,7 +52,9 @@ export function RecentEntries() {
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-medium">
-                      {(entry.taskId && tasks.find((t) => t.id === entry.taskId)?.name) || formatDate(entry.startTime)}
+                      {(entry.taskId &&
+                        tasks.find((tk) => tk.id === entry.taskId)?.name) ||
+                        formatDate(entry.startTime)}
                     </p>
                     {entry.description && (
                       <p className="text-xs text-muted-foreground/70 italic">
@@ -55,13 +63,17 @@ export function RecentEntries() {
                     )}
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span>
-                        {formatDate(entry.startTime)} {formatTime(entry.startTime)} - {formatTime(entry.endTime)}
+                        {formatDate(entry.startTime)}{" "}
+                        {formatTime(entry.startTime)} -{" "}
+                        {formatTime(entry.endTime)}
                       </span>
                       <CategoryBadge categoryId={entry.categoryId} />
                     </div>
                   </div>
                   <span className="text-sm font-medium">
-                    {formatDuration(getEntryDurationMinutes(entry.startTime, entry.endTime))}
+                    {formatDuration(
+                      getEntryDurationMinutes(entry.startTime, entry.endTime)
+                    )}
                   </span>
                 </Link>
               ))}
