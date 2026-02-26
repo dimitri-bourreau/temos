@@ -53,13 +53,3 @@ export interface TemosData {
   settings: UserSettings;
 }
 
-export interface PeriodStats {
-  totalMinutes: number;
-  averageMinutesPerDay: number;
-  targetMinutes: number;
-  differenceMinutes: number;
-  dailyBreakdown: { date: string; minutes: number }[];
-  categoryBreakdown: { categoryId: ID; minutes: number }[];
-}
-
-export type Period = "day" | "week" | "month" | "year";

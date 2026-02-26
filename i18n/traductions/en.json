@@ -20,7 +20,6 @@
     "entries": "Entries",
     "categories": "Categories",
     "tasksAndCategories": "Tasks & Categories",
-    "statistics": "Statistics",
     "settings": "Settings"
   },
   "dashboard": {
@@ -75,22 +74,6 @@
     "weekView": "Week",
     "monthView": "Month",
     "noEntries": "No entries for this period."
-  },
-  "statistics": {
-    "title": "Statistics",
-    "totalHours": "Total Hours",
-    "averagePerDay": "Avg / Day",
-    "remaining": "Remaining",
-    "exceeded": "Exceeded",
-    "vsTarget": "vs Target",
-    "dailyHours": "Daily Hours",
-    "trend": "Trend",
-    "byCategory": "By Category",
-    "agenda": "Agenda",
-    "day": "Day",
-    "week": "Week",
-    "month": "Month",
-    "year": "Year"
   },
   "tasks": {
     "title": "Tasks & Categories",

@@ -2,18 +2,7 @@ import {
   differenceInMinutes,
   format,
   parseISO,
-  startOfDay,
-  endOfDay,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
-  startOfYear,
-  endOfYear,
-  eachDayOfInterval,
-  isWithinInterval,
 } from "date-fns";
-import type { Period } from "@/types";
 
 export function formatDuration(minutes: number): string {
   const h = Math.floor(minutes / 60);
@@ -45,29 +34,6 @@ export function getEntryDurationMinutes(startTime: string, endTime: string): num
   return differenceInMinutes(parseISO(endTime), parseISO(startTime));
 }
 
-export function getPeriodRange(date: Date, period: Period): { start: Date; end: Date } {
-  switch (period) {
-    case "day":
-      return { start: startOfDay(date), end: endOfDay(date) };
-    case "week":
-      return {
-        start: startOfWeek(date, { weekStartsOn: 1 }),
-        end: endOfWeek(date, { weekStartsOn: 1 }),
-      };
-    case "month":
-      return { start: startOfMonth(date), end: endOfMonth(date) };
-    case "year":
-      return { start: startOfYear(date), end: endOfYear(date) };
-  }
-}
-
-export function getDaysInPeriod(start: Date, end: Date): Date[] {
-  return eachDayOfInterval({ start, end });
-}
-
-export function isDateInRange(date: Date, start: Date, end: Date): boolean {
-  return isWithinInterval(date, { start, end });
-}
 
 export function formatDate(date: Date | string, formatStr: string = "PP"): string {
   const d = typeof date === "string" ? parseISO(date) : date;

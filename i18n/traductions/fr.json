@@ -20,7 +20,6 @@
     "entries": "Entr\u00e9es",
     "categories": "Cat\u00e9gories",
     "tasksAndCategories": "T\u00e2ches et cat\u00e9gories",
-    "statistics": "Statistiques",
     "settings": "Param\u00e8tres"
   },
   "dashboard": {
@@ -75,22 +74,6 @@
     "weekView": "Semaine",
     "monthView": "Mois",
     "noEntries": "Aucune entr\u00e9e pour cette p\u00e9riode."
-  },
-  "statistics": {
-    "title": "Statistiques",
-    "totalHours": "Total heures",
-    "averagePerDay": "Moy. / Jour",
-    "remaining": "Restant",
-    "exceeded": "D\u00e9pass\u00e9",
-    "vsTarget": "vs Objectif",
-    "dailyHours": "Heures par jour",
-    "trend": "Tendance",
-    "byCategory": "Par cat\u00e9gorie",
-    "agenda": "Agenda",
-    "day": "Jour",
-    "week": "Semaine",
-    "month": "Mois",
-    "year": "Ann\u00e9e"
   },
   "tasks": {
     "title": "T\u00e2ches et cat\u00e9gories",
