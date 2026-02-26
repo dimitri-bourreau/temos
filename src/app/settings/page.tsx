@@ -11,11 +11,7 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useSettingsStore } from "@/features/settings/store";
-import { cn } from "@/lib/utils";
-
-function setLocaleCookie(locale: string) {
-  document.cookie = `locale=${locale};path=/;max-age=31536000`;
-}
+import { resolveAndSetLocaleCookie } from "@/features/settings/services/set-locale-cookie";
 
 export default function SettingsPage() {
   const t = useTranslations("settings");
@@ -26,12 +22,7 @@ export default function SettingsPage() {
 
   const switchLocale = async (locale: "en" | "fr" | "system") => {
     await updateSettings({ locale });
-    if (locale === "system") {
-      const browserLang = navigator.language.toLowerCase();
-      setLocaleCookie(browserLang.startsWith("fr") ? "fr" : "en");
-    } else {
-      setLocaleCookie(locale);
-    }
+    resolveAndSetLocaleCookie(locale);
     router.refresh();
   };
 

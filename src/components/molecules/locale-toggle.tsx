@@ -10,23 +10,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
-
-function setLocaleCookie(locale: string) {
-  document.cookie = `locale=${locale};path=/;max-age=31536000`;
-}
+import { resolveAndSetLocaleCookie } from "@/features/settings/services/set-locale-cookie";
 
 export function LocaleToggle() {
   const router = useRouter();
   const t = useTranslations("settings");
 
-  const switchLocale = (locale: string) => {
-    if (locale === "system") {
-      const browserLang = navigator.language.toLowerCase();
-      const resolved = browserLang.startsWith("fr") ? "fr" : "en";
-      setLocaleCookie(resolved);
-    } else {
-      setLocaleCookie(locale);
-    }
+  const switchLocale = (locale: "en" | "fr" | "system") => {
+    resolveAndSetLocaleCookie(locale);
     router.refresh();
   };
 
