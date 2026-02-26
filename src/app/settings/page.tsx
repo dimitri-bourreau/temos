@@ -70,71 +70,75 @@ export default function SettingsPage() {
 
   return (
     <AppShell>
-      <div className="space-y-4 max-w-2xl">
+      <div className="space-y-4">
         <h1 className="text-2xl font-bold">{t("title")}</h1>
 
-        <WorkScheduleForm />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <WorkScheduleForm />
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("appearance")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label>{t("theme")}</Label>
-              <div className="flex gap-2">
-                {themeOptions.map((opt) => (
-                  <Button
-                    key={opt.value}
-                    variant={theme === opt.value ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => switchTheme(opt.value)}
-                    className="gap-2"
-                  >
-                    <opt.icon className="h-4 w-4" />
-                    {opt.label}
-                  </Button>
-                ))}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">{t("appearance")}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="space-y-1.5">
+                <Label>{t("theme")}</Label>
+                <div className="flex gap-2">
+                  {themeOptions.map((opt) => (
+                    <Button
+                      key={opt.value}
+                      variant={theme === opt.value ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => switchTheme(opt.value)}
+                      className="gap-2"
+                    >
+                      <opt.icon className="h-4 w-4" />
+                      {opt.label}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label>{t("language")}</Label>
-              <div className="flex gap-2">
-                {localeOptions.map((opt) => (
-                  <Button
-                    key={opt.value}
-                    variant={settings.locale === opt.value ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => switchLocale(opt.value)}
-                    className="gap-2"
-                  >
-                    <Globe className="h-4 w-4" />
-                    {opt.label}
-                  </Button>
-                ))}
+              <div className="space-y-1.5">
+                <Label>{t("language")}</Label>
+                <div className="flex gap-2">
+                  {localeOptions.map((opt) => (
+                    <Button
+                      key={opt.value}
+                      variant={settings.locale === opt.value ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => switchLocale(opt.value)}
+                      className="gap-2"
+                    >
+                      <Globe className="h-4 w-4" />
+                      {opt.label}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle className="text-base">{tCat("title")}</CardTitle>
-            <Button
-              size="sm"
-              onClick={() => {
-                setEditingCategory(null);
-                setCategoryFormOpen(true);
-              }}
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              {tCat("new")}
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <CategoryList onEdit={handleEditCategory} />
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-base">{tCat("title")}</CardTitle>
+              <Button
+                size="sm"
+                onClick={() => {
+                  setEditingCategory(null);
+                  setCategoryFormOpen(true);
+                }}
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                {tCat("new")}
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <CategoryList onEdit={handleEditCategory} />
+            </CardContent>
+          </Card>
+
+          <DataManager />
+        </div>
 
         <CategoryForm
           open={categoryFormOpen}
@@ -145,8 +149,6 @@ export default function SettingsPage() {
           onSubmit={handleCategorySubmit}
           category={editingCategory}
         />
-
-        <DataManager />
       </div>
     </AppShell>
   );

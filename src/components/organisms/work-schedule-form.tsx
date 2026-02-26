@@ -7,14 +7,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useSettingsStore } from "@/features/settings/store";
 import { useTranslations } from "next-intl";
 
-const DAY_KEYS = [
-  "sunday",
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
+const DAYS_FROM_MONDAY = [
+  { key: "monday", index: 1 },
+  { key: "tuesday", index: 2 },
+  { key: "wednesday", index: 3 },
+  { key: "thursday", index: 4 },
+  { key: "friday", index: 5 },
+  { key: "saturday", index: 6 },
+  { key: "sunday", index: 0 },
 ] as const;
 
 export function WorkScheduleForm() {
@@ -42,11 +42,11 @@ export function WorkScheduleForm() {
 
   return (
     <Card>
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-2">
         <CardTitle className="text-base">{t("workSchedule")}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
+      <CardContent className="space-y-3">
+        <div className="space-y-1.5">
           <Label>{t("targetHours")}</Label>
           <Input
             type="number"
@@ -58,19 +58,19 @@ export function WorkScheduleForm() {
             className="w-32"
           />
         </div>
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label>{t("restDays")}</Label>
           <div className="flex flex-wrap gap-3">
-            {DAY_KEYS.map((dayKey, index) => (
+            {DAYS_FROM_MONDAY.map(({ key, index }) => (
               <label
-                key={dayKey}
+                key={key}
                 className="flex items-center gap-2 text-sm"
               >
                 <Checkbox
                   checked={settings.workSchedule.restDays.includes(index)}
                   onCheckedChange={() => toggleRestDay(index)}
                 />
-                {t(`days.${dayKey}`)}
+                {t(`days.${key}`)}
               </label>
             ))}
           </div>

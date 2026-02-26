@@ -72,18 +72,18 @@ export function DataManager() {
   return (
     <>
       <Card>
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2">
           <CardTitle className="text-base">{t("data")}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
+        <CardContent className="space-y-3">
+          <div className="space-y-1.5">
             <p className="text-sm text-muted-foreground">{t("exportDescription")}</p>
             <Button variant="outline" onClick={handleExport}>
               <Download className="mr-2 h-4 w-4" />
               {t("exportData")}
             </Button>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <p className="text-sm text-muted-foreground">{t("importDescription")}</p>
             <input
               ref={fileInput}

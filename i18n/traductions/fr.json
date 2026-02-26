@@ -62,6 +62,7 @@
     "icon": "Ic\u00f4ne",
     "noCategories": "Aucune cat\u00e9gorie.",
     "deleteConfirm": "\u00cates-vous s\u00fbr de vouloir supprimer cette cat\u00e9gorie ? Les entr\u00e9es associ\u00e9es ne seront pas supprim\u00e9es.",
+    "entries": "Entr\u00e9es",
     "entriesCount": "{count, plural, =0 {Aucune entr\u00e9e} =1 {1 entr\u00e9e} other {# entr\u00e9es}}"
   },
   "calendar": {
