@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { useEntriesStore } from "@/features/entries/store";
+import { useTasksStore } from "@/features/tasks/store";
 import { CategoryBadge } from "@/components/molecules/category-badge";
 import { EmptyState } from "@/components/atoms/empty-state";
 import { formatDate, formatTime, formatDuration, getEntryDurationMinutes } from "@/lib/date-utils";
@@ -14,6 +15,7 @@ import { motion } from "framer-motion";
 export function RecentEntries() {
   const t = useTranslations("dashboard");
   const entries = useEntriesStore((s) => s.entries);
+  const tasks = useTasksStore((s) => s.tasks);
   const recent = entries.slice(0, 5);
 
   return (
@@ -44,8 +46,13 @@ export function RecentEntries() {
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-medium">
-                      {entry.description || formatDate(entry.startTime)}
+                      {(entry.taskId && tasks.find((t) => t.id === entry.taskId)?.name) || formatDate(entry.startTime)}
                     </p>
+                    {entry.description && (
+                      <p className="text-xs text-muted-foreground/70 italic">
+                        {entry.description}
+                      </p>
+                    )}
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span>
                         {formatDate(entry.startTime)} {formatTime(entry.startTime)} - {formatTime(entry.endTime)}

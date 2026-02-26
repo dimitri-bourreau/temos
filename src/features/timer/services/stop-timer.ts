@@ -11,20 +11,12 @@ export async function stopTimer(
   const settings = await getSettings(db);
   if (!settings.timerStartedAt || !settings.timerCategoryId) return null;
 
-  let description = "";
-  if (settings.timerTaskId) {
-    const task = await db.tasks.get(settings.timerTaskId);
-    if (task) description = task.name;
-  }
-
   const resolvedNote = note ?? settings.timerNote ?? "";
-  if (resolvedNote) {
-    description = description ? `${description} — ${resolvedNote}` : resolvedNote;
-  }
 
   const entry = await createEntry(db, {
     categoryId: settings.timerCategoryId,
-    description,
+    taskId: settings.timerTaskId ?? undefined,
+    description: resolvedNote,
     startTime: settings.timerStartedAt,
     endTime: new Date().toISOString(),
   });

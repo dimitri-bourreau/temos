@@ -19,7 +19,7 @@
     "calendar": "Calendrier",
     "entries": "Entr\u00e9es",
     "categories": "Cat\u00e9gories",
-    "tasks": "T\u00e2ches",
+    "tasksAndCategories": "T\u00e2ches et cat\u00e9gories",
     "statistics": "Statistiques",
     "settings": "Param\u00e8tres"
   },
@@ -51,7 +51,10 @@
     "noEntries": "Aucune entr\u00e9e de temps.",
     "deleteConfirm": "\u00cates-vous s\u00fbr de vouloir supprimer cette entr\u00e9e ?",
     "filterByCategory": "Filtrer par cat\u00e9gorie",
-    "allCategories": "Toutes les cat\u00e9gories"
+    "allCategories": "Toutes les cat\u00e9gories",
+    "task": "T\u00e2che",
+    "note": "Note",
+    "notePlaceholder": "Ajouter une note..."
   },
   "categories": {
     "title": "Cat\u00e9gories",
@@ -89,7 +92,7 @@
     "year": "Ann\u00e9e"
   },
   "tasks": {
-    "title": "T\u00e2ches",
+    "title": "T\u00e2ches et cat\u00e9gories",
     "new": "Nouvelle t\u00e2che",
     "edit": "Modifier la t\u00e2che",
     "name": "Nom",

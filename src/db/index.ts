@@ -26,6 +26,12 @@ export class TemosDB extends Dexie {
       tasks: "id, categoryId",
       settings: "id",
     });
+    this.version(4).stores({
+      entries: "id, categoryId, taskId, startTime, endTime",
+      categories: "id",
+      tasks: "id, categoryId",
+      settings: "id",
+    });
   }
 }
 

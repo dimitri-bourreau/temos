@@ -14,6 +14,7 @@ import {
 } from "date-fns";
 import { useEntriesStore } from "@/features/entries/store";
 import { useCategoriesStore } from "@/features/categories/store";
+import { useTasksStore } from "@/features/tasks/store";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
@@ -28,6 +29,7 @@ const HOURS = Array.from({ length: END_HOUR - START_HOUR }, (_, i) => i + START_
 export function WeekView({ currentDate }: WeekViewProps) {
   const entries = useEntriesStore((s) => s.entries);
   const categories = useCategoriesStore((s) => s.categories);
+  const tasks = useTasksStore((s) => s.tasks);
 
   const days = useMemo(() => {
     const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
@@ -103,7 +105,7 @@ export function WeekView({ currentDate }: WeekViewProps) {
                       }}
                     >
                       <div className="font-medium truncate" style={{ color: cat?.color }}>
-                        {entry.description || cat?.name || ""}
+                        {(entry.taskId && tasks.find((t) => t.id === entry.taskId)?.name) || cat?.name || ""}
                       </div>
                     </div>
                   );

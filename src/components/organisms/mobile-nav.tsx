@@ -16,7 +16,7 @@ import { useTranslations } from "next-intl";
 const navItems = [
   { href: "/", icon: LayoutDashboard, labelKey: "dashboard" as const },
   { href: "/entries", icon: Clock, labelKey: "entries" as const },
-  { href: "/tasks", icon: ListTodo, labelKey: "tasks" as const },
+  { href: "/tasks-and-categories", icon: ListTodo, labelKey: "tasksAndCategories" as const },
   { href: "/statistics", icon: BarChart3, labelKey: "statistics" as const },
   { href: "/settings", icon: Settings, labelKey: "settings" as const },
 ];

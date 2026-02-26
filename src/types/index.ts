@@ -20,6 +20,7 @@ export interface Task {
 export interface TimeEntry {
   id: ID;
   categoryId: ID;
+  taskId?: ID;
   description: string;
   startTime: string;
   endTime: string;

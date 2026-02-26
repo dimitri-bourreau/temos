@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useEntriesStore } from "@/features/entries/store";
 import { useCategoriesStore } from "@/features/categories/store";
+import { useTasksStore } from "@/features/tasks/store";
 import { formatDuration } from "@/lib/date-utils";
 import { motion } from "framer-motion";
 
@@ -26,6 +27,7 @@ interface MonthViewProps {
 export function MonthView({ currentDate }: MonthViewProps) {
   const entries = useEntriesStore((s) => s.entries);
   const categories = useCategoriesStore((s) => s.categories);
+  const tasks = useTasksStore((s) => s.tasks);
 
   const days = useMemo(() => {
     const monthStart = startOfMonth(currentDate);
@@ -97,7 +99,7 @@ export function MonthView({ currentDate }: MonthViewProps) {
                           color: cat?.color || "#666",
                         }}
                       >
-                        {entry.description || cat?.name || ""}
+                        {(entry.taskId && tasks.find((t) => t.id === entry.taskId)?.name) || cat?.name || ""}
                       </div>
                     );
                   })}
