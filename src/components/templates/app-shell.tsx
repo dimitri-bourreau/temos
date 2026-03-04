@@ -1,7 +1,7 @@
 "use client";
 
 import { AppSidebar } from "@/components/organisms/app-sidebar";
-import { AppHeader } from "@/components/organisms/app-header";
+import { MobileHeader } from "@/components/organisms/mobile-header";
 import { MobileNav } from "@/components/organisms/mobile-nav";
 import { FloatingTimerBar } from "@/components/organisms/floating-timer-bar";
 import { PageTransition } from "./page-transition";
@@ -38,7 +38,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen overflow-hidden">
       <AppSidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
-        <AppHeader />
+        <MobileHeader />
         <main className="flex-1 overflow-y-auto p-4 pb-20 md:p-6 md:pb-6">
           {isLoaded ? (
             <PageTransition>{children}</PageTransition>

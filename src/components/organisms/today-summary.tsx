@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { useEntriesStore } from "@/features/entries/store";
 import { useSettingsStore } from "@/features/settings/store";
+import { useTimer } from "@/features/timer/hook";
 import { formatDurationHHMM } from "@/lib/date-utils";
 import { startOfDay, endOfDay, parseISO, differenceInMinutes } from "date-fns";
 import { motion } from "framer-motion";
@@ -14,6 +15,7 @@ export function TodaySummary() {
   const t = useTranslations("dashboard");
   const entries = useEntriesStore((s) => s.entries);
   const settings = useSettingsStore((s) => s.settings);
+  const { isRunning, elapsed } = useTimer();
 
   const { worked, target, diff } = useMemo(() => {
     const now = new Date();
@@ -24,11 +26,14 @@ export function TodaySummary() {
       (e) => e.startTime >= dayStart && e.startTime <= dayEnd
     );
 
-    const workedMinutes = todayEntries.reduce(
+    const completedMinutes = todayEntries.reduce(
       (sum, e) =>
         sum + differenceInMinutes(parseISO(e.endTime), parseISO(e.startTime)),
       0
     );
+
+    const activeMinutes = isRunning ? Math.floor(elapsed / 60000) : 0;
+    const workedMinutes = completedMinutes + activeMinutes;
 
     const targetMinutes = settings.workSchedule.targetHoursPerDay * 60;
     return {
@@ -36,7 +41,7 @@ export function TodaySummary() {
       target: targetMinutes,
       diff: workedMinutes - targetMinutes,
     };
-  }, [entries, settings]);
+  }, [entries, settings, isRunning, elapsed]);
 
   return (
     <motion.div
