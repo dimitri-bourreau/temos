@@ -35,7 +35,8 @@
     "recentEntries": "Entr\u00e9es r\u00e9centes",
     "noEntriesYet": "Aucune entr\u00e9e. Commencez \u00e0 suivre votre temps !",
     "selectCategory": "Choisir une cat\u00e9gorie",
-    "selectTask": "Choisir une t\u00e2che"
+    "selectTask": "Choisir une t\u00e2che",
+    "todayNotes": "Notes du jour"
   },
   "entries": {
     "title": "Entr\u00e9es de temps",

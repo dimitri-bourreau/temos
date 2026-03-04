@@ -4,6 +4,7 @@ import { AppShell } from "@/components/templates/app-shell";
 import { TodaySummary } from "@/components/organisms/today-summary";
 import { QuickTimer } from "@/components/organisms/quick-timer";
 import { EntryList } from "@/components/organisms/entry-list";
+import { TodayNotes } from "@/components/organisms/today-notes";
 import { MonthView } from "@/components/organisms/month-view";
 import { DateNavigation } from "@/components/molecules/date-navigation";
 import { useCalendarNavigation } from "@/features/calendar/hooks/use-calendar-navigation";
@@ -27,7 +28,8 @@ export default function DashboardPage() {
           <MonthView currentDate={currentDate} />
         </div>
 
-        <div className="min-h-0 overflow-y-auto">
+        <div className="min-h-0 overflow-y-auto space-y-6">
+          <TodayNotes />
           <EntryList />
         </div>
       </div>

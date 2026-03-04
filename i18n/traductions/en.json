@@ -35,7 +35,8 @@
     "recentEntries": "Recent Entries",
     "noEntriesYet": "No entries yet. Start tracking your time!",
     "selectCategory": "Select a category",
-    "selectTask": "Select a task"
+    "selectTask": "Select a task",
+    "todayNotes": "Today's Notes"
   },
   "entries": {
     "title": "Time Entries",

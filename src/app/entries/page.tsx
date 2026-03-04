@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AppShell } from "@/components/templates/app-shell";
 import { EntryList } from "@/components/organisms/entry-list";
 import { EntryFilters } from "@/components/organisms/entry-filters";
+import { TodayNotes } from "@/components/organisms/today-notes";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -29,6 +30,7 @@ export default function EntriesPage() {
           categoryFilter={categoryFilter}
           onCategoryFilterChange={setCategoryFilter}
         />
+        <TodayNotes />
         <EntryList categoryFilter={categoryFilter === "all" ? undefined : categoryFilter} />
       </div>
     </AppShell>
