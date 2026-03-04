@@ -12,8 +12,11 @@ import {
   format,
   parseISO,
   differenceInMinutes,
+  addDays,
 } from "date-fns";
+import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
+import { getDateFnsLocale } from "@/lib/get-date-fns-locale";
 import { useEntriesStore } from "@/features/entries/store";
 import { motion } from "framer-motion";
 
@@ -23,6 +26,7 @@ interface MonthViewProps {
 
 export function MonthView({ currentDate }: MonthViewProps) {
   const entries = useEntriesStore((s) => s.entries);
+  const dateFnsLocale = getDateFnsLocale(useLocale());
 
   const days = useMemo(() => {
     const monthStart = startOfMonth(currentDate);
@@ -32,7 +36,12 @@ export function MonthView({ currentDate }: MonthViewProps) {
     return eachDayOfInterval({ start: calStart, end: calEnd });
   }, [currentDate]);
 
-  const dayHeaders = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const dayHeaders = useMemo(() => {
+    const monday = startOfWeek(new Date(), { weekStartsOn: 1 });
+    return Array.from({ length: 7 }, (_, i) =>
+      format(addDays(monday, i), "EEE", { locale: dateFnsLocale })
+    );
+  }, [dateFnsLocale]);
 
   return (
     <motion.div
