@@ -36,7 +36,7 @@ export function FloatingTimerBar() {
           animate={{ y: 0 }}
           exit={{ y: "100%" }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 shadow-lg backdrop-blur-sm md:bottom-0 mb-[52px] md:mb-0"
+          className="shrink-0 border-t border-border bg-background/95 shadow-lg backdrop-blur-sm mb-13 md:mb-0"
         >
           <div className="mx-auto flex max-w-4xl items-center gap-3 px-4 py-3">
             {/* Task & category info */}
