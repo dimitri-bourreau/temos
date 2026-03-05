@@ -14,6 +14,7 @@ import { useEntriesStore } from "@/features/entries/store";
 import { useTasksStore } from "@/features/tasks/store";
 import { useCategoriesStore } from "@/features/categories/store";
 import { useDayNotesNavigation } from "@/features/entries/hooks/use-day-notes-navigation";
+import { useTimer } from "@/features/timer/hook";
 import { ColorSwatch } from "@/components/atoms/color-swatch";
 import { getEntryDurationMinutes, formatDuration } from "@/lib/date-utils";
 import { parseISO, format, isSameDay } from "date-fns";
@@ -37,6 +38,7 @@ export function TodayNotes() {
   const entries = useEntriesStore((s) => s.entries);
   const tasks = useTasksStore((s) => s.tasks);
   const categories = useCategoriesStore((s) => s.categories);
+  const { isRunning, elapsed } = useTimer();
   const [calendarOpen, setCalendarOpen] = useState(false);
 
   const {
@@ -88,14 +90,16 @@ export function TodayNotes() {
     return Array.from(map.values());
   }, [dayEntries, tasks, categories]);
 
-  const totalMinutes = useMemo(
-    () =>
-      dayEntries.reduce(
-        (sum, e) => sum + getEntryDurationMinutes(e.startTime, e.endTime),
-        0,
-      ),
-    [dayEntries],
-  );
+  const isToday = isSameDay(selectedDate, new Date());
+
+  const totalMinutes = useMemo(() => {
+    const completedMinutes = dayEntries.reduce(
+      (sum, e) => sum + getEntryDurationMinutes(e.startTime, e.endTime),
+      0,
+    );
+    const activeMinutes = isToday && isRunning ? Math.floor(elapsed / 60000) : 0;
+    return completedMinutes + activeMinutes;
+  }, [dayEntries, isToday, isRunning, elapsed]);
 
   const isDisabledDate = (date: Date) => {
     const dateKey = format(date, "yyyy-MM-dd");
@@ -108,8 +112,6 @@ export function TodayNotes() {
       setCalendarOpen(false);
     }
   };
-
-  const isToday = isSameDay(selectedDate, new Date());
 
   if (dayEntries.length === 0 && isToday) return null;
 
