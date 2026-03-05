@@ -1,15 +1,30 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useTranslations } from "next-intl";
 import { useEntriesStore } from "@/features/entries/store";
 import { useTasksStore } from "@/features/tasks/store";
 import { useCategoriesStore } from "@/features/categories/store";
+import { useDayNotesNavigation } from "@/features/entries/hooks/use-day-notes-navigation";
 import { ColorSwatch } from "@/components/atoms/color-swatch";
-import { startOfDay, endOfDay, parseISO } from "date-fns";
+import { getEntryDurationMinutes, formatDuration } from "@/lib/date-utils";
+import { parseISO, format, isSameDay } from "date-fns";
 import { motion } from "framer-motion";
-import { FileText } from "lucide-react";
+import {
+  FileText,
+  ChevronLeft,
+  ChevronRight,
+  CalendarIcon,
+  Clock,
+} from "lucide-react";
 
 interface TaskNoteGroup {
   label: string;
@@ -22,22 +37,36 @@ export function TodayNotes() {
   const entries = useEntriesStore((s) => s.entries);
   const tasks = useTasksStore((s) => s.tasks);
   const categories = useCategoriesStore((s) => s.categories);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+
+  const {
+    selectedDate,
+    dayStart,
+    dayEnd,
+    label,
+    goToPrevious,
+    goToNext,
+    selectDate,
+    datesWithEntries,
+    dateFnsLocale,
+  } = useDayNotesNavigation();
+
+  const dayEntries = useMemo(
+    () =>
+      entries.filter(
+        (e) => e.startTime >= dayStart && e.startTime <= dayEnd,
+      ),
+    [entries, dayStart, dayEnd],
+  );
 
   const groups = useMemo(() => {
-    const now = new Date();
-    const dayStart = startOfDay(now).toISOString();
-    const dayEnd = endOfDay(now).toISOString();
-
-    const todayEntries = entries.filter(
-      (e) =>
-        e.startTime >= dayStart &&
-        e.startTime <= dayEnd &&
-        e.description.trim() !== ""
+    const withNotes = dayEntries.filter(
+      (e) => e.description.trim() !== "",
     );
 
     const map = new Map<string, TaskNoteGroup>();
 
-    for (const entry of todayEntries) {
+    for (const entry of withNotes) {
       const task = entry.taskId
         ? tasks.find((t) => t.id === entry.taskId)
         : null;
@@ -57,9 +86,32 @@ export function TodayNotes() {
     }
 
     return Array.from(map.values());
-  }, [entries, tasks, categories]);
+  }, [dayEntries, tasks, categories]);
 
-  if (groups.length === 0) return null;
+  const totalMinutes = useMemo(
+    () =>
+      dayEntries.reduce(
+        (sum, e) => sum + getEntryDurationMinutes(e.startTime, e.endTime),
+        0,
+      ),
+    [dayEntries],
+  );
+
+  const isDisabledDate = (date: Date) => {
+    const dateKey = format(date, "yyyy-MM-dd");
+    return !datesWithEntries.has(dateKey);
+  };
+
+  const handleCalendarSelect = (date: Date | undefined) => {
+    if (date) {
+      selectDate(date);
+      setCalendarOpen(false);
+    }
+  };
+
+  const isToday = isSameDay(selectedDate, new Date());
+
+  if (dayEntries.length === 0 && isToday) return null;
 
   return (
     <motion.div
@@ -69,34 +121,91 @@ export function TodayNotes() {
     >
       <Card className="gap-1.5">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <FileText className="h-4 w-4 text-muted-foreground" />
-            {t("todayNotes")}
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <FileText className="h-4 w-4 text-muted-foreground" />
+              {label}
+            </CardTitle>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                onClick={goToPrevious}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-7 w-7">
+                    <CalendarIcon className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={handleCalendarSelect}
+                    disabled={isDisabledDate}
+                    locale={dateFnsLocale}
+                  />
+                </PopoverContent>
+              </Popover>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                onClick={goToNext}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
-          <div>
-            {groups.map((group) => (
-              <div key={group.label}>
-                <div className="mb-1 flex items-center gap-1.5">
-                  {group.color && (
-                    <ColorSwatch color={group.color} className="h-2.5 w-2.5" />
-                  )}
-                  <span className="text-sm font-medium">{group.label}</span>
-                </div>
-                <ul className="list-disc space-y-0.5 pl-5">
-                  {group.notes.map((note, i) => (
-                    <li
-                      key={i}
-                      className="text-sm text-muted-foreground"
-                    >
-                      {note}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="mb-2 flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Clock className="h-3.5 w-3.5" />
+            <span>
+              {t("hoursWorked")}: {formatDuration(totalMinutes)}
+            </span>
           </div>
+          {groups.length > 0 && (
+            <div>
+              {groups.map((group) => (
+                <div key={group.label}>
+                  <div className="mb-1 flex items-center gap-1.5">
+                    {group.color && (
+                      <ColorSwatch
+                        color={group.color}
+                        className="h-2.5 w-2.5"
+                      />
+                    )}
+                    <span className="text-sm font-medium">{group.label}</span>
+                  </div>
+                  <ul className="list-disc space-y-0.5 pl-5">
+                    {group.notes.map((note, i) => (
+                      <li
+                        key={i}
+                        className="text-sm text-muted-foreground"
+                      >
+                        {note}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+          {groups.length === 0 && dayEntries.length > 0 && (
+            <p className="text-sm text-muted-foreground italic">
+              {t("noNotesForDay")}
+            </p>
+          )}
+          {dayEntries.length === 0 && (
+            <p className="text-sm text-muted-foreground italic">
+              {t("noEntriesForDay")}
+            </p>
+          )}
         </CardContent>
       </Card>
     </motion.div>

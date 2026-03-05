@@ -52,8 +52,8 @@ export function useTimer() {
     [updateSettings]
   );
 
-  const stop = useCallback(async () => {
-    const entry = await stopTimer(db);
+  const stop = useCallback(async (noteOverride?: string) => {
+    const entry = await stopTimer(db, noteOverride);
     if (entry) {
       await updateSettings({
         timerStartedAt: null,
