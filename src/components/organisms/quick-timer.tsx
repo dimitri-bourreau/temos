@@ -107,7 +107,7 @@ export function QuickTimer() {
                 </Select>
               )}
               <Button
-                onClick={isRunning ? stop : handleStart}
+                onClick={isRunning ? () => stop() : handleStart}
                 variant={isRunning ? "destructive" : "default"}
                 className={`active:scale-95 transition-transform ${isRunning ? "w-full" : ""}`}
               >

@@ -43,6 +43,11 @@ export function FloatingTimerBar() {
     [setNote],
   );
 
+  const handleStop = useCallback(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    stop(localNote);
+  }, [stop, localNote]);
+
   const category = categories.find((c) => c.id === categoryId);
   const task = tasks.find((tk) => tk.id === taskId);
 
@@ -84,7 +89,7 @@ export function FloatingTimerBar() {
               value={localNote}
               onChange={(e) => handleNoteChange(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") stop();
+                if (e.key === "Enter") handleStop();
               }}
               placeholder={t("notePlaceholder")}
               className="h-8 flex-1 text-sm"
@@ -94,7 +99,7 @@ export function FloatingTimerBar() {
             <Button
               variant="destructive"
               size="sm"
-              onClick={stop}
+              onClick={handleStop}
               className="shrink-0"
             >
               <Square className="mr-1.5 h-3.5 w-3.5" />
