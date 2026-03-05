@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Square } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -24,6 +25,23 @@ export function FloatingTimerBar() {
     useTimer();
   const categories = useCategoriesStore((s) => s.categories);
   const tasks = useTasksStore((s) => s.tasks);
+
+  const [localNote, setLocalNote] = useState(note);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Sync store → local only when the store value changes externally
+  useEffect(() => {
+    setLocalNote(note);
+  }, [note]);
+
+  const handleNoteChange = useCallback(
+    (value: string) => {
+      setLocalNote(value);
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => setNote(value), 300);
+    },
+    [setNote],
+  );
 
   const category = categories.find((c) => c.id === categoryId);
   const task = tasks.find((tk) => tk.id === taskId);
@@ -63,8 +81,8 @@ export function FloatingTimerBar() {
 
             {/* Note input */}
             <Input
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
+              value={localNote}
+              onChange={(e) => handleNoteChange(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") stop();
               }}
