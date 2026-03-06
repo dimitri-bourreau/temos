@@ -18,6 +18,7 @@ import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { getDateFnsLocale } from "@/lib/get-date-fns-locale";
 import { useEntriesStore } from "@/features/entries/store";
+import { formatDuration } from "@/lib/date-utils";
 import { motion } from "framer-motion";
 
 interface MonthViewProps {
@@ -71,8 +72,6 @@ export function MonthView({ currentDate }: MonthViewProps) {
               differenceInMinutes(parseISO(e.endTime), parseISO(e.startTime)),
             0
           );
-          const totalHours = Math.floor(totalMinutes / 60);
-
           return (
             <div
               key={day.toISOString()}
@@ -91,7 +90,7 @@ export function MonthView({ currentDate }: MonthViewProps) {
                 {format(day, "d")}
               </div>
               <div className="text-[10px] font-medium text-muted-foreground mt-0.5 h-3 leading-3">
-                {totalHours > 0 ? `${totalHours}h` : ""}
+                {totalMinutes > 0 ? formatDuration(totalMinutes) : ""}
               </div>
             </div>
           );

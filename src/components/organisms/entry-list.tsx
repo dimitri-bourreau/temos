@@ -11,6 +11,7 @@ import type { TimeEntry } from "@/types";
 import {
   formatTime,
   formatDurationHMS,
+  formatDuration,
   getEntryDurationMinutes,
   formatDayHeader,
 } from "@/lib/date-utils";
@@ -41,10 +42,16 @@ export function EntryList({ categoryFilter }: EntryListProps) {
   return (
     <>
       <div className="space-y-6">
-        {dayGroups.map((group) => (
+        {dayGroups.map((group) => {
+          const totalMinutes = group.entries.reduce(
+            (sum, e) => sum + getEntryDurationMinutes(e.startTime, e.endTime),
+            0
+          );
+          return (
           <section key={group.dateKey}>
-            <h3 className="mb-2 text-sm font-semibold text-muted-foreground">
-              {formatDayHeader(group.dateKey, locale)}
+            <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-muted-foreground">
+              <span>{formatDayHeader(group.dateKey, locale)}</span>
+              <span className="font-normal">{formatDuration(totalMinutes)}</span>
             </h3>
             <div className="space-y-2">
               {group.entries.map((entry, i) => (
@@ -87,7 +94,8 @@ export function EntryList({ categoryFilter }: EntryListProps) {
               ))}
             </div>
           </section>
-        ))}
+          );
+        })}
       </div>
 
       <EntryEditDialog
