@@ -61,18 +61,18 @@ export function FloatingTimerBar() {
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           className="shrink-0 border-t border-border bg-background/95 shadow-lg backdrop-blur-sm mb-13 md:mb-0"
         >
-          <div className="mx-auto flex max-w-4xl items-center gap-3 px-4 py-3">
+          <div className="flex items-center gap-3 px-4 py-3">
             {/* Task & category info */}
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="flex max-w-52 shrink-0 items-center gap-2">
               {category && (
-                <ColorSwatch color={category.color} className="h-3 w-3" />
+                <ColorSwatch color={category.color} className="h-3 w-3 shrink-0" />
               )}
-              <div className="flex flex-col text-sm leading-tight">
+              <div className="flex min-w-0 flex-col text-sm leading-tight">
                 {task && (
-                  <span className="font-medium">{task.name}</span>
+                  <span className="truncate font-medium">{task.name}</span>
                 )}
                 {category && (
-                  <span className="text-xs text-muted-foreground">
+                  <span className="truncate text-xs text-muted-foreground">
                     {category.name}
                   </span>
                 )}
