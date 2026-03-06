@@ -38,7 +38,8 @@
     "selectTask": "Choisir une t\u00e2che",
     "todayNotes": "Notes du jour",
     "noNotesForDay": "Aucune note pour ce jour.",
-    "noEntriesForDay": "Aucune entrée pour ce jour."
+    "noEntriesForDay": "Aucune entrée pour ce jour.",
+    "timerActive": "En cours"
   },
   "entries": {
     "title": "Entr\u00e9es de temps",

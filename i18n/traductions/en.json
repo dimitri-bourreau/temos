@@ -38,7 +38,8 @@
     "selectTask": "Select a task",
     "todayNotes": "Today's Notes",
     "noNotesForDay": "No notes for this day.",
-    "noEntriesForDay": "No entries for this day."
+    "noEntriesForDay": "No entries for this day.",
+    "timerActive": "Running"
   },
   "entries": {
     "title": "Time Entries",
