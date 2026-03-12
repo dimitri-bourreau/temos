@@ -52,13 +52,19 @@
     "category": "Cat\u00e9gorie",
     "duration": "Dur\u00e9e",
     "date": "Date",
-    "noEntries": "Aucune entr\u00e9e de temps.",
+    "noEntries": "Aucune entrée de temps",
+    "noEntriesToday": "Aucune entrée de temps aujourd'hui",
     "deleteConfirm": "\u00cates-vous s\u00fbr de vouloir supprimer cette entr\u00e9e ?",
     "filterByCategory": "Filtrer par cat\u00e9gorie",
     "allCategories": "Toutes les cat\u00e9gories",
     "task": "T\u00e2che",
     "note": "Note",
-    "notePlaceholder": "Ajouter une note..."
+    "notePlaceholder": "Ajouter une note...",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "pageOf": "Page {current} sur {total}"
+    }
   },
   "categories": {
     "title": "Cat\u00e9gories",
