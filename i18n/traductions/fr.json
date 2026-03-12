@@ -20,7 +20,8 @@
     "entries": "Entr\u00e9es",
     "categories": "Cat\u00e9gories",
     "tasksAndCategories": "T\u00e2ches et cat\u00e9gories",
-    "settings": "Param\u00e8tres"
+    "settings": "Param\u00e8tres",
+    "statistics": "Statistiques"
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -103,6 +104,14 @@
     "changeTask": "Changer de tâche",
     "editStartTime": "Modifier l'heure de début",
     "startTime": "Heure de début"
+  },
+  "statistics": {
+    "title": "Statistiques",
+    "avgDailyHours": "Moy. heures / jour",
+    "avgStartTime": "Heure de début moy.",
+    "avgEndTime": "Heure de fin moy.",
+    "daysTracked": "{count, plural, =1 {1 jour de données} other {# jours de données}}",
+    "noData": "Aucune entrée. Commencez à suivre votre temps !"
   },
   "settings": {
     "title": "Param\u00e8tres",

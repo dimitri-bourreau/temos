@@ -20,7 +20,8 @@
     "entries": "Entries",
     "categories": "Categories",
     "tasksAndCategories": "Tasks & Categories",
-    "settings": "Settings"
+    "settings": "Settings",
+    "statistics": "Statistics"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -103,6 +104,14 @@
     "changeTask": "Change task",
     "editStartTime": "Edit start time",
     "startTime": "Start time"
+  },
+  "statistics": {
+    "title": "Statistics",
+    "avgDailyHours": "Avg. Daily Hours",
+    "avgStartTime": "Avg. Start Time",
+    "avgEndTime": "Avg. End Time",
+    "daysTracked": "{count, plural, =1 {1 day of data} other {# days of data}}",
+    "noData": "No entries yet. Start tracking your time!"
   },
   "settings": {
     "title": "Settings",

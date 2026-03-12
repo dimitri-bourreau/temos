@@ -8,6 +8,7 @@ import {
   Clock,
   ListTodo,
   Settings,
+  BarChart2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -18,6 +19,7 @@ const navItems = [
   { href: "/", icon: LayoutDashboard, labelKey: "dashboard" as const },
   { href: "/entries", icon: Clock, labelKey: "entries" as const },
   { href: "/tasks-and-categories", icon: ListTodo, labelKey: "tasksAndCategories" as const },
+  { href: "/statistics", icon: BarChart2, labelKey: "statistics" as const },
 ];
 
 const settingsItem = {
