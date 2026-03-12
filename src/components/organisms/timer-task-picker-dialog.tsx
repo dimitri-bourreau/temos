@@ -32,9 +32,12 @@ export function TimerTaskPickerDialog({
 
   const [search, setSearch] = useState("");
 
+  const normalize = (str: string) =>
+    str.normalize("NFD").replace(/\p{Mn}/gu, "").toLowerCase();
+
   const filtered = useMemo(() => {
-    const q = search.toLowerCase();
-    return tasks.filter((task) => task.name.toLowerCase().includes(q));
+    const q = normalize(search);
+    return tasks.filter((task) => normalize(task.name).includes(q));
   }, [tasks, search]);
 
   const tasksByCategory = useMemo(() => {
