@@ -93,7 +93,10 @@
   },
   "timer": {
     "notePlaceholder": "Ajouter une note...",
-    "stop": "Arrêter"
+    "stop": "Arrêter",
+    "changeTask": "Changer de tâche",
+    "editStartTime": "Modifier l'heure de début",
+    "startTime": "Heure de début"
   },
   "settings": {
     "title": "Param\u00e8tres",

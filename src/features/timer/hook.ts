@@ -66,5 +66,34 @@ export function useTimer() {
     return entry;
   }, [updateSettings, loadEntries]);
 
-  return { isRunning, elapsed, categoryId, taskId, note, setNote, start, stop };
+  const changeTask = useCallback(
+    async (catId: string, tskId: string) => {
+      await updateSettings({
+        timerCategoryId: catId,
+        timerTaskId: tskId,
+      });
+    },
+    [updateSettings]
+  );
+
+  const changeStartTime = useCallback(
+    async (newStartedAt: string) => {
+      await updateSettings({ timerStartedAt: newStartedAt });
+    },
+    [updateSettings]
+  );
+
+  return {
+    isRunning,
+    elapsed,
+    categoryId,
+    taskId,
+    startedAt: settings.timerStartedAt,
+    note,
+    setNote,
+    start,
+    stop,
+    changeTask,
+    changeStartTime,
+  };
 }

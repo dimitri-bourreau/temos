@@ -93,7 +93,10 @@
   },
   "timer": {
     "notePlaceholder": "Add a note...",
-    "stop": "Stop"
+    "stop": "Stop",
+    "changeTask": "Change task",
+    "editStartTime": "Edit start time",
+    "startTime": "Start time"
   },
   "settings": {
     "title": "Settings",
