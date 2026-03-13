@@ -111,7 +111,9 @@
     "avgStartTime": "Heure de début moy.",
     "avgEndTime": "Heure de fin moy.",
     "daysTracked": "{count, plural, =1 {1 jour de données} other {# jours de données}}",
-    "noData": "Aucune entrée. Commencez à suivre votre temps !"
+    "noData": "Aucune entrée. Commencez à suivre votre temps !",
+    "avgWeeklyHoursCurrentMonth": "Moy. heures / semaine (ce mois)",
+    "avgWeeklyHoursAllTime": "Moy. heures / semaine (global)"
   },
   "settings": {
     "title": "Param\u00e8tres",

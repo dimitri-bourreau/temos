@@ -1,13 +1,20 @@
 "use client";
 
-import { TrendingUp, LogIn, LogOut } from "lucide-react";
+import { TrendingUp, LogIn, LogOut, CalendarDays } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { formatDuration } from "@/lib/date-utils";
 import { useStatistics } from "@/features/statistics/hooks/use-statistics";
 
 export function StatsSummary() {
   const t = useTranslations("statistics");
-  const { avgDailyMinutes, avgStartTime, avgEndTime, daysCount } = useStatistics();
+  const {
+    avgDailyMinutes,
+    avgStartTime,
+    avgEndTime,
+    daysCount,
+    avgWeeklyMinutesCurrentMonth,
+    avgWeeklyMinutesAllTime,
+  } = useStatistics();
 
   if (daysCount === 0) {
     return (
@@ -18,23 +25,45 @@ export function StatsSummary() {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      <StatCard
-        icon={<TrendingUp className="h-4 w-4" />}
-        label={t("avgDailyHours")}
-        value={formatDuration(avgDailyMinutes)}
-        subtitle={t("daysTracked", { count: daysCount })}
-      />
-      <StatCard
-        icon={<LogIn className="h-4 w-4" />}
-        label={t("avgStartTime")}
-        value={avgStartTime ?? "—"}
-      />
-      <StatCard
-        icon={<LogOut className="h-4 w-4" />}
-        label={t("avgEndTime")}
-        value={avgEndTime ?? "—"}
-      />
+    <div className="space-y-4">
+      <div className="grid grid-cols-3 gap-4">
+        <StatCard
+          icon={<TrendingUp className="h-4 w-4" />}
+          label={t("avgDailyHours")}
+          value={formatDuration(avgDailyMinutes)}
+          subtitle={t("daysTracked", { count: daysCount })}
+        />
+        <StatCard
+          icon={<LogIn className="h-4 w-4" />}
+          label={t("avgStartTime")}
+          value={avgStartTime ?? "—"}
+        />
+        <StatCard
+          icon={<LogOut className="h-4 w-4" />}
+          label={t("avgEndTime")}
+          value={avgEndTime ?? "—"}
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <StatCard
+          icon={<CalendarDays className="h-4 w-4" />}
+          label={t("avgWeeklyHoursCurrentMonth")}
+          value={
+            avgWeeklyMinutesCurrentMonth > 0
+              ? formatDuration(avgWeeklyMinutesCurrentMonth)
+              : "—"
+          }
+        />
+        <StatCard
+          icon={<CalendarDays className="h-4 w-4" />}
+          label={t("avgWeeklyHoursAllTime")}
+          value={
+            avgWeeklyMinutesAllTime > 0
+              ? formatDuration(avgWeeklyMinutesAllTime)
+              : "—"
+          }
+        />
+      </div>
     </div>
   );
 }

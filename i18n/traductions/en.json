@@ -111,7 +111,9 @@
     "avgStartTime": "Avg. Start Time",
     "avgEndTime": "Avg. End Time",
     "daysTracked": "{count, plural, =1 {1 day of data} other {# days of data}}",
-    "noData": "No entries yet. Start tracking your time!"
+    "noData": "No entries yet. Start tracking your time!",
+    "avgWeeklyHoursCurrentMonth": "Avg. Weekly Hours (this month)",
+    "avgWeeklyHoursAllTime": "Avg. Weekly Hours (all time)"
   },
   "settings": {
     "title": "Settings",

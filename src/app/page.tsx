@@ -26,7 +26,7 @@ export default function DashboardPage() {
             onNext={goToNext}
             onToday={goToToday}
           />
-          <MonthView currentDate={currentDate} />
+          <MonthView currentDate={currentDate} showTimes={false} />
         </div>
 
         <div className="min-h-0 overflow-y-auto space-y-6">

@@ -1,5 +1,13 @@
 import { useMemo } from "react";
-import { parseISO, format, differenceInMinutes } from "date-fns";
+import {
+  parseISO,
+  format,
+  differenceInMinutes,
+  getISOWeek,
+  getISOWeekYear,
+  startOfMonth,
+  endOfMonth,
+} from "date-fns";
 import { useEntriesStore } from "@/features/entries/store";
 
 function minutesSinceMidnight(isoString: string): number {
@@ -13,13 +21,24 @@ function minutesToTimeString(totalMinutes: number): string {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
+function isoWeekKey(date: Date): string {
+  return `${getISOWeekYear(date)}-W${String(getISOWeek(date)).padStart(2, "0")}`;
+}
+
 export function useStatistics() {
   const entries = useEntriesStore((s) => s.entries);
 
   return useMemo(() => {
-    if (entries.length === 0) {
-      return { avgDailyMinutes: 0, avgStartTime: null, avgEndTime: null, daysCount: 0 };
-    }
+    const empty = {
+      avgDailyMinutes: 0,
+      avgStartTime: null as string | null,
+      avgEndTime: null as string | null,
+      daysCount: 0,
+      avgWeeklyMinutesCurrentMonth: 0,
+      avgWeeklyMinutesAllTime: 0,
+    };
+
+    if (entries.length === 0) return empty;
 
     const today = format(new Date(), "yyyy-MM-dd");
 
@@ -33,30 +52,28 @@ export function useStatistics() {
     }
 
     const daysCount = byDay.size;
-    if (daysCount === 0) {
-      return { avgDailyMinutes: 0, avgStartTime: null, avgEndTime: null, daysCount: 0 };
-    }
+    if (daysCount === 0) return empty;
 
     let totalMinutes = 0;
     let totalStartMinutes = 0;
     let totalEndMinutes = 0;
+    const dayMinutesMap = new Map<string, number>();
 
-    for (const dayEntries of byDay.values()) {
-      // Sum durations for the day
+    for (const [dayKey, dayEntries] of byDay.entries()) {
       const dayMinutes = dayEntries.reduce(
-        (sum, e) => sum + differenceInMinutes(parseISO(e.endTime), parseISO(e.startTime)),
+        (sum, e) =>
+          sum + differenceInMinutes(parseISO(e.endTime), parseISO(e.startTime)),
         0
       );
+      dayMinutesMap.set(dayKey, dayMinutes);
       totalMinutes += dayMinutes;
 
-      // Earliest start time of the day
       const earliestStart = dayEntries.reduce(
         (min, e) => Math.min(min, minutesSinceMidnight(e.startTime)),
         Infinity
       );
       totalStartMinutes += earliestStart;
 
-      // Latest end time of the day
       const latestEnd = dayEntries.reduce(
         (max, e) => Math.max(max, minutesSinceMidnight(e.endTime)),
         -Infinity
@@ -64,11 +81,45 @@ export function useStatistics() {
       totalEndMinutes += latestEnd;
     }
 
+    // Weekly averages
+    const now = new Date();
+    const monthStart = startOfMonth(now);
+    const monthEnd = endOfMonth(now);
+
+    const allWeeks = new Map<string, number>();
+    const currentMonthWeeks = new Map<string, number>();
+
+    for (const [dayKey, dayMinutes] of dayMinutesMap.entries()) {
+      const date = parseISO(dayKey);
+      const wk = isoWeekKey(date);
+      allWeeks.set(wk, (allWeeks.get(wk) ?? 0) + dayMinutes);
+      if (date >= monthStart && date <= monthEnd) {
+        currentMonthWeeks.set(wk, (currentMonthWeeks.get(wk) ?? 0) + dayMinutes);
+      }
+    }
+
+    const avgWeeklyMinutesAllTime =
+      allWeeks.size > 0
+        ? Math.round(
+            [...allWeeks.values()].reduce((s, m) => s + m, 0) / allWeeks.size
+          )
+        : 0;
+
+    const avgWeeklyMinutesCurrentMonth =
+      currentMonthWeeks.size > 0
+        ? Math.round(
+            [...currentMonthWeeks.values()].reduce((s, m) => s + m, 0) /
+              currentMonthWeeks.size
+          )
+        : 0;
+
     return {
       avgDailyMinutes: Math.round(totalMinutes / daysCount),
       avgStartTime: minutesToTimeString(Math.round(totalStartMinutes / daysCount)),
       avgEndTime: minutesToTimeString(Math.round(totalEndMinutes / daysCount)),
       daysCount,
+      avgWeeklyMinutesCurrentMonth,
+      avgWeeklyMinutesAllTime,
     };
   }, [entries]);
 }
