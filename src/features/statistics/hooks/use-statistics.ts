@@ -21,15 +21,22 @@ export function useStatistics() {
       return { avgDailyMinutes: 0, avgStartTime: null, avgEndTime: null, daysCount: 0 };
     }
 
-    // Group entries by day
+    const today = format(new Date(), "yyyy-MM-dd");
+
+    // Group entries by day, excluding today (incomplete day)
     const byDay = new Map<string, typeof entries>();
     for (const entry of entries) {
       const dayKey = format(parseISO(entry.startTime), "yyyy-MM-dd");
+      if (dayKey === today) continue;
       if (!byDay.has(dayKey)) byDay.set(dayKey, []);
       byDay.get(dayKey)!.push(entry);
     }
 
     const daysCount = byDay.size;
+    if (daysCount === 0) {
+      return { avgDailyMinutes: 0, avgStartTime: null, avgEndTime: null, daysCount: 0 };
+    }
+
     let totalMinutes = 0;
     let totalStartMinutes = 0;
     let totalEndMinutes = 0;
