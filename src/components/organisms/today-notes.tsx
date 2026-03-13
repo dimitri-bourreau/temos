@@ -62,9 +62,9 @@ export function TodayNotes() {
   );
 
   const groups = useMemo(() => {
-    const withNotes = dayEntries.filter(
-      (e) => e.description.trim() !== "",
-    );
+    const withNotes = dayEntries
+      .filter((e) => e.description.trim() !== "")
+      .sort((a, b) => a.startTime - b.startTime);
 
     const map = new Map<string, TaskNoteGroup>();
 
