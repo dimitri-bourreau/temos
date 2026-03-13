@@ -25,6 +25,13 @@ interface MonthViewProps {
   currentDate: Date;
 }
 
+function getDurationColor(totalMinutes: number): string {
+  if (totalMinutes >= 8 * 60) return "text-red-500";
+  if (totalMinutes >= 7 * 60) return "text-green-600";
+  if (totalMinutes >= 6 * 60) return "text-orange-500";
+  return "text-red-500";
+}
+
 export function MonthView({ currentDate }: MonthViewProps) {
   const entries = useEntriesStore((s) => s.entries);
   const dateFnsLocale = getDateFnsLocale(useLocale());
@@ -55,7 +62,7 @@ export function MonthView({ currentDate }: MonthViewProps) {
         {dayHeaders.map((d) => (
           <div
             key={d}
-            className="bg-muted px-1 py-1 text-center text-[10px] font-medium text-muted-foreground"
+            className="bg-muted px-1 py-2 text-center text-xs font-medium text-muted-foreground"
           >
             {d}
           </div>
@@ -72,26 +79,61 @@ export function MonthView({ currentDate }: MonthViewProps) {
               differenceInMinutes(parseISO(e.endTime), parseISO(e.startTime)),
             0
           );
+
+          const startTime =
+            dayEntries.length > 0
+              ? format(
+                  dayEntries.reduce((earliest, e) =>
+                    parseISO(e.startTime) < parseISO(earliest.startTime)
+                      ? e
+                      : earliest
+                  ).startTime,
+                  "HH:mm"
+                )
+              : null;
+
+          const endTime =
+            dayEntries.length > 0
+              ? format(
+                  dayEntries.reduce((latest, e) =>
+                    parseISO(e.endTime) > parseISO(latest.endTime) ? e : latest
+                  ).endTime,
+                  "HH:mm"
+                )
+              : null;
+
           return (
             <div
               key={day.toISOString()}
               className={cn(
-                "aspect-square bg-card p-1 flex flex-col items-center justify-center",
+                "bg-card p-2 flex flex-col items-center justify-start min-h-24 gap-1",
                 !isCurrentMonth && "bg-muted/50"
               )}
             >
               <div
                 className={cn(
-                  "flex h-5 w-5 items-center justify-center rounded-full text-[10px]",
+                  "flex h-6 w-6 items-center justify-center rounded-full text-sm font-medium",
                   isToday && "bg-primary text-primary-foreground font-bold",
                   !isCurrentMonth && "text-muted-foreground"
                 )}
               >
                 {format(day, "d")}
               </div>
-              <div className="text-[10px] font-medium text-muted-foreground mt-0.5 h-3 leading-3">
-                {totalMinutes > 0 ? formatDuration(totalMinutes) : ""}
-              </div>
+              {totalMinutes > 0 && (
+                <>
+                  <div
+                    className={cn(
+                      "text-sm font-semibold leading-none",
+                      getDurationColor(totalMinutes)
+                    )}
+                  >
+                    {formatDuration(totalMinutes)}
+                  </div>
+                  <div className="text-xs text-muted-foreground leading-none">
+                    {startTime} – {endTime}
+                  </div>
+                </>
+              )}
             </div>
           );
         })}
