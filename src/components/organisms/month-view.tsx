@@ -24,6 +24,8 @@ import { motion } from "framer-motion";
 interface MonthViewProps {
   currentDate: Date;
   showTimes?: boolean;
+  colorize?: boolean;
+  showLabels?: boolean;
 }
 
 function getDurationColor(totalMinutes: number): string {
@@ -33,7 +35,12 @@ function getDurationColor(totalMinutes: number): string {
   return "text-red-500";
 }
 
-export function MonthView({ currentDate, showTimes = true }: MonthViewProps) {
+export function MonthView({
+  currentDate,
+  showTimes = true,
+  colorize = false,
+  showLabels = false,
+}: MonthViewProps) {
   const entries = useEntriesStore((s) => s.entries);
   const dateFnsLocale = getDateFnsLocale(useLocale());
 
@@ -107,13 +114,13 @@ export function MonthView({ currentDate, showTimes = true }: MonthViewProps) {
             <div
               key={day.toISOString()}
               className={cn(
-                "bg-card p-2 flex flex-col items-center justify-start min-h-24 gap-1",
+                "bg-card p-1.5 flex flex-col items-center justify-around aspect-square overflow-hidden",
                 !isCurrentMonth && "bg-muted/50"
               )}
             >
               <div
                 className={cn(
-                  "flex h-6 w-6 items-center justify-center rounded-full text-sm font-medium",
+                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-black/50",
                   isToday && "bg-primary text-primary-foreground font-bold",
                   !isCurrentMonth && "text-muted-foreground"
                 )}
@@ -122,18 +129,48 @@ export function MonthView({ currentDate, showTimes = true }: MonthViewProps) {
               </div>
               {totalMinutes > 0 && (
                 <>
-                  <div
-                    className={cn(
-                      "text-sm font-semibold leading-none",
-                      getDurationColor(totalMinutes)
-                    )}
-                  >
-                    {formatDuration(totalMinutes)}
-                  </div>
-                  {showTimes && (
-                    <div className="text-xs text-muted-foreground leading-none">
-                      {startTime} – {endTime}
+                  {showLabels ? (
+                    <div className="flex flex-col w-full gap-0.5">
+                      <span className="text-[10px] text-muted-foreground leading-tight">
+                        Heures :{" "}
+                        <span
+                          className={cn(
+                            "font-semibold",
+                            getDurationColor(totalMinutes)
+                          )}
+                        >
+                          {formatDuration(totalMinutes)}
+                        </span>
+                      </span>
+                      {startTime && endTime && (
+                        <>
+                          <span className="text-[10px] text-muted-foreground leading-tight">
+                            Début : {startTime}
+                          </span>
+                          <span className="text-[10px] text-muted-foreground leading-tight">
+                            Fin : {endTime}
+                          </span>
+                        </>
+                      )}
                     </div>
+                  ) : (
+                    <>
+                      <div
+                        className={cn(
+                          "text-sm leading-none",
+                          colorize
+                            ? getDurationColor(totalMinutes)
+                            : "text-foreground"
+                        )}
+                      >
+                        {formatDuration(totalMinutes)}
+                      </div>
+                      {showTimes && startTime && endTime && (
+                        <div className="text-xs text-muted-foreground leading-none">
+                          {startTime} – {endTime}
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}

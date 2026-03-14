@@ -16,15 +16,19 @@ export default function StatisticsPage() {
     <AppShell>
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">{t("title")}</h1>
-        <StatsSummary />
-        <div className="space-y-3">
-          <DateNavigation
-            label={label}
-            onPrevious={goToPrevious}
-            onNext={goToNext}
-            onToday={goToToday}
-          />
-          <MonthView currentDate={currentDate} />
+        <div className="flex gap-6 items-start">
+          <div className="w-1/2 space-y-3">
+            <DateNavigation
+              label={label}
+              onPrevious={goToPrevious}
+              onNext={goToNext}
+              onToday={goToToday}
+            />
+            <MonthView currentDate={currentDate} colorize showLabels />
+          </div>
+          <div className="w-1/2">
+            <StatsSummary />
+          </div>
         </div>
       </div>
     </AppShell>
