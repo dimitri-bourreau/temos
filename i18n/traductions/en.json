@@ -26,7 +26,7 @@
   "dashboard": {
     "title": "Dashboard",
     "todaySummary": "Today's Summary",
-    "hoursWorked": "Hours Worked",
+    "hoursWorked": "Worked",
     "hoursTarget": "Target",
     "hoursRemaining": "Remaining",
     "hoursExceeded": "Exceeded",
@@ -40,7 +40,8 @@
     "todayNotes": "Today's Notes",
     "noNotesForDay": "No notes for this day.",
     "noEntriesForDay": "No entries for this day.",
-    "timerActive": "Running"
+    "timerActive": "Running",
+    "hoursWeek": "This week"
   },
   "entries": {
     "title": "Time Entries",

@@ -8,9 +8,9 @@ import { useCategoriesStore } from "@/features/categories/store";
 import { useSettingsStore } from "@/features/settings/store";
 import { useTimer } from "@/features/timer/hook";
 import { formatDurationHHMM, formatDuration, formatTime } from "@/lib/date-utils";
-import { startOfDay, endOfDay, parseISO, differenceInMinutes } from "date-fns";
+import { startOfDay, endOfDay, startOfWeek, parseISO, differenceInMinutes } from "date-fns";
 import { motion } from "framer-motion";
-import { Clock, Target, TrendingUp } from "lucide-react";
+import { Clock, Target, TrendingUp, CalendarDays } from "lucide-react";
 import { DayTimeline, type TimeSegment } from "@/components/atoms/day-timeline";
 
 export function TodaySummary() {
@@ -21,10 +21,11 @@ export function TodaySummary() {
   const { isRunning, elapsed } = useTimer();
   const timerActiveLabel = t("timerActive");
 
-  const { worked, target, diff, segments } = useMemo(() => {
+  const { worked, target, diff, weekWorked, segments } = useMemo(() => {
     const now = new Date();
     const dayStart = startOfDay(now).toISOString();
     const dayEnd = endOfDay(now).toISOString();
+    const weekStart = startOfWeek(now, { weekStartsOn: 1 }).toISOString();
 
     const todayEntries = entries.filter(
       (e) => e.startTime >= dayStart && e.startTime <= dayEnd
@@ -40,6 +41,14 @@ export function TodaySummary() {
     const workedMinutes = completedMinutes + activeMinutes;
 
     const targetMinutes = settings.workSchedule.targetHoursPerDay * 60;
+
+    const weekEntries = entries.filter((e) => e.startTime >= weekStart);
+    const weekCompletedMinutes = weekEntries.reduce(
+      (sum, e) =>
+        sum + differenceInMinutes(parseISO(e.endTime), parseISO(e.startTime)),
+      0
+    );
+    const weekWorkedMinutes = weekCompletedMinutes + activeMinutes;
 
     const toMinutes = (iso: string) => {
       const d = parseISO(iso);
@@ -90,6 +99,7 @@ export function TodaySummary() {
       worked: workedMinutes,
       target: targetMinutes,
       diff: workedMinutes - targetMinutes,
+      weekWorked: weekWorkedMinutes,
       segments: [...completedSegments, ...activeSegment],
     };
   }, [entries, categories, settings, isRunning, elapsed, timerActiveLabel]);
@@ -105,7 +115,7 @@ export function TodaySummary() {
           <CardTitle className="text-base">{t("todaySummary")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-4 gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Clock className="h-3 w-3" />
@@ -132,6 +142,13 @@ export function TodaySummary() {
               >
                 {formatDurationHHMM(Math.abs(diff))}
               </p>
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <CalendarDays className="h-3 w-3" />
+                {t("hoursWeek")}
+              </div>
+              <p className="text-xl font-bold">{formatDurationHHMM(weekWorked)}</p>
             </div>
           </div>
 
