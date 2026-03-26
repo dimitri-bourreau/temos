@@ -25,7 +25,7 @@ export default function StatisticsPage() {
               onNext={goToNext}
               onToday={goToToday}
             />
-            <MonthView currentDate={currentDate} colorize showLabels />
+            <MonthView currentDate={currentDate} colorize />
           </div>
           <div className="w-1/2">
             <StatsSummary />
