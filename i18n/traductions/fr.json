@@ -122,7 +122,14 @@
     "daysTracked": "{count, plural, =1 {1 jour de données} other {# jours de données}}",
     "noData": "Aucune entrée. Commencez à suivre votre temps !",
     "avgWeeklyHoursCurrentMonth": "Moy. heures / semaine (ce mois)",
-    "avgWeeklyHoursAllTime": "Moy. heures / semaine (global)"
+    "avgWeeklyHoursAllTime": "Moy. heures / semaine (global)",
+    "timeBreakdown": "Répartition du temps",
+    "today": "Aujourd'hui",
+    "thisWeek": "Cette semaine",
+    "thisMonth": "Ce mois",
+    "byCategory": "Par catégorie",
+    "byTask": "Par tâche",
+    "noDataForPeriod": "Aucune entrée pour cette période."
   },
   "settings": {
     "title": "Param\u00e8tres",

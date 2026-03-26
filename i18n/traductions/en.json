@@ -122,7 +122,14 @@
     "daysTracked": "{count, plural, =1 {1 day of data} other {# days of data}}",
     "noData": "No entries yet. Start tracking your time!",
     "avgWeeklyHoursCurrentMonth": "Avg. Weekly Hours (this month)",
-    "avgWeeklyHoursAllTime": "Avg. Weekly Hours (all time)"
+    "avgWeeklyHoursAllTime": "Avg. Weekly Hours (all time)",
+    "timeBreakdown": "Time Breakdown",
+    "today": "Today",
+    "thisWeek": "This week",
+    "thisMonth": "This month",
+    "byCategory": "By category",
+    "byTask": "By task",
+    "noDataForPeriod": "No entries for this period."
   },
   "settings": {
     "title": "Settings",
