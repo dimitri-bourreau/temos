@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import { AppShell } from "@/components/templates/app-shell";
 import { TodaySummary } from "@/components/organisms/today-summary";
 import { WeekPieCharts } from "@/components/organisms/week-pie-charts";
-import { QuickTimer } from "@/components/organisms/quick-timer";
 import { EntryList } from "@/components/organisms/entry-list";
 import { TodayNotes } from "@/components/organisms/today-notes";
 
@@ -13,7 +12,6 @@ export default function DashboardPage() {
     <AppShell>
       <div className="grid h-full grid-cols-[1fr_2fr] gap-6">
         <div className="flex flex-col gap-4">
-          <QuickTimer />
           <TodaySummary />
           <WeekPieCharts />
         </div>

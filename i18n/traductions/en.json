@@ -112,7 +112,8 @@
     "stop": "Stop",
     "changeTask": "Change task",
     "editStartTime": "Edit start time",
-    "startTime": "Start time"
+    "startTime": "Start time",
+    "selectTask": "Select a task to start..."
   },
   "statistics": {
     "title": "Statistics",

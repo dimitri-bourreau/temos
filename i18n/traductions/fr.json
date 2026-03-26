@@ -112,7 +112,8 @@
     "stop": "Arrêter",
     "changeTask": "Changer de tâche",
     "editStartTime": "Modifier l'heure de début",
-    "startTime": "Heure de début"
+    "startTime": "Heure de début",
+    "selectTask": "Choisir une tâche pour démarrer..."
   },
   "statistics": {
     "title": "Statistiques",
