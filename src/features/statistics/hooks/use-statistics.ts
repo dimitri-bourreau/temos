@@ -81,10 +81,11 @@ export function useStatistics() {
       totalEndMinutes += latestEnd;
     }
 
-    // Weekly averages
+    // Weekly averages — only completed weeks (current week excluded)
     const now = new Date();
     const monthStart = startOfMonth(now);
     const monthEnd = endOfMonth(now);
+    const currentWeekKey = isoWeekKey(now);
 
     const allWeeks = new Map<string, number>();
     const currentMonthWeeks = new Map<string, number>();
@@ -92,6 +93,7 @@ export function useStatistics() {
     for (const [dayKey, dayMinutes] of dayMinutesMap.entries()) {
       const date = parseISO(dayKey);
       const wk = isoWeekKey(date);
+      if (wk === currentWeekKey) continue;
       allWeeks.set(wk, (allWeeks.get(wk) ?? 0) + dayMinutes);
       if (date >= monthStart && date <= monthEnd) {
         currentMonthWeeks.set(wk, (currentMonthWeeks.get(wk) ?? 0) + dayMinutes);
