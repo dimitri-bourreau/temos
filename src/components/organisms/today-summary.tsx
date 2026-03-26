@@ -43,12 +43,12 @@ export function TodaySummary() {
     const targetMinutes = settings.workSchedule.targetHoursPerDay * 60;
 
     const weekEntries = entries.filter((e) => e.startTime >= weekStart);
-    const weekCompletedMinutes = weekEntries.reduce(
-      (sum, e) =>
-        sum + differenceInMinutes(parseISO(e.endTime), parseISO(e.startTime)),
-      0
-    );
-    const weekWorkedMinutes = weekCompletedMinutes + activeMinutes;
+    const weekWorkedMinutes =
+      weekEntries.reduce(
+        (sum, e) =>
+          sum + differenceInMinutes(parseISO(e.endTime), parseISO(e.startTime)),
+        0
+      ) + activeMinutes;
 
     const toMinutes = (iso: string) => {
       const d = parseISO(iso);
@@ -144,7 +144,7 @@ export function TodaySummary() {
               </p>
             </div>
             <div className="space-y-1">
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap">
                 <CalendarDays className="h-3 w-3" />
                 {t("hoursWeek")}
               </div>

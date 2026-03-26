@@ -41,7 +41,15 @@
     "noNotesForDay": "Aucune note pour ce jour.",
     "noEntriesForDay": "Aucune entrée pour ce jour.",
     "timerActive": "En cours",
-    "hoursWeek": "Cette semaine"
+    "hoursWeek": "Cette semaine",
+    "weekSummary": "Résumé de la semaine",
+    "weekTarget": "Objectif semaine",
+    "daysWorked": "Jours travaillés",
+    "timeByCategory": "Temps par catégorie",
+    "timeBreakdown": "Répartition du temps",
+    "byCategory": "Par catégorie",
+    "byTask": "Par tâche",
+    "noDataThisWeek": "Aucune entrée cette semaine."
   },
   "entries": {
     "title": "Entr\u00e9es de temps",

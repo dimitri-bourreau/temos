@@ -41,7 +41,15 @@
     "noNotesForDay": "No notes for this day.",
     "noEntriesForDay": "No entries for this day.",
     "timerActive": "Running",
-    "hoursWeek": "This week"
+    "hoursWeek": "This week",
+    "weekSummary": "Week Summary",
+    "weekTarget": "Week target",
+    "daysWorked": "Days worked",
+    "timeByCategory": "Time by category",
+    "timeBreakdown": "Time Breakdown",
+    "byCategory": "By category",
+    "byTask": "By task",
+    "noDataThisWeek": "No entries this week."
   },
   "entries": {
     "title": "Time Entries",
