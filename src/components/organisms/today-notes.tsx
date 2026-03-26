@@ -113,8 +113,6 @@ export function TodayNotes() {
     }
   };
 
-  if (dayEntries.length === 0 && isToday) return null;
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
