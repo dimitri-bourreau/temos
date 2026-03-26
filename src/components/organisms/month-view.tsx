@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import {
   startOfMonth,
   endOfMonth,
@@ -125,7 +125,7 @@ export function MonthView({ currentDate, colorize = false }: MonthViewProps) {
 
           {/* Weeks */}
           {weeks.map(({ weekDays, weekMinutes }, weekIndex) => (
-            <>
+            <Fragment key={weekIndex}>
               {weekDays.map(({ day, totalMinutes, startTime, endTime }) => {
                 const isCurrentMonth = isSameMonth(day, currentDate);
                 const isToday = isSameDay(day, new Date());
@@ -189,7 +189,7 @@ export function MonthView({ currentDate, colorize = false }: MonthViewProps) {
                   </span>
                 ) : null}
               </div>
-            </>
+            </Fragment>
           ))}
         </div>
       </motion.div>
