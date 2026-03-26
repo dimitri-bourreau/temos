@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { ColorSwatch } from "@/components/atoms/color-swatch";
 import { useCategoriesStore } from "@/features/categories/store";
 import { useTasksStore } from "@/features/tasks/store";
+import { useEntriesStore } from "@/features/entries/store";
 import { useTranslations } from "next-intl";
 import type { Task } from "@/types";
 
@@ -29,25 +30,42 @@ export function TimerTaskPickerDialog({
   const tCommon = useTranslations("common");
   const categories = useCategoriesStore((s) => s.categories);
   const tasks = useTasksStore((s) => s.tasks);
+  const entries = useEntriesStore((s) => s.entries);
 
   const [search, setSearch] = useState("");
 
   const normalize = (str: string) =>
     str.normalize("NFD").replace(/\p{Mn}/gu, "").toLowerCase();
 
+  // Sort tasks by most recently used (based on entries sorted newest first).
+  // Tasks never used appear at the end, ordered by creation date.
+  const sortedTasks = useMemo(() => {
+    const lastUsedOrder: string[] = [];
+    for (const entry of entries) {
+      if (entry.taskId && !lastUsedOrder.includes(entry.taskId)) {
+        lastUsedOrder.push(entry.taskId);
+      }
+    }
+
+    return [...tasks].sort((a, b) => {
+      const ai = lastUsedOrder.indexOf(a.id);
+      const bi = lastUsedOrder.indexOf(b.id);
+      if (ai !== -1 && bi !== -1) return ai - bi;
+      if (ai !== -1) return -1;
+      if (bi !== -1) return 1;
+      return a.createdAt.localeCompare(b.createdAt);
+    });
+  }, [tasks, entries]);
+
   const filtered = useMemo(() => {
     const q = normalize(search);
-    return tasks.filter((task) => normalize(task.name).includes(q));
-  }, [tasks, search]);
+    return sortedTasks.filter((task) => normalize(task.name).includes(q));
+  }, [sortedTasks, search]);
 
-  const tasksByCategory = useMemo(() => {
-    const map: Record<string, Task[]> = {};
-    for (const task of filtered) {
-      if (!map[task.categoryId]) map[task.categoryId] = [];
-      map[task.categoryId].push(task);
-    }
-    return map;
-  }, [filtered]);
+  const categoryById = useMemo(
+    () => Object.fromEntries(categories.map((c) => [c.id, c])),
+    [categories]
+  );
 
   const handleSelect = (task: Task) => {
     onSelect(task.categoryId, task.id);
@@ -73,25 +91,21 @@ export function TimerTaskPickerDialog({
           placeholder={tCommon("search")}
         />
         <div className="max-h-72 overflow-y-auto space-y-1">
-          {categories.map((cat) => {
-            const catTasks = tasksByCategory[cat.id];
-            if (!catTasks?.length) return null;
+          {filtered.map((task) => {
+            const category = categoryById[task.categoryId];
             return (
-              <div key={cat.id}>
-                <div className="flex items-center gap-2 px-2 py-1 text-xs font-medium text-muted-foreground">
-                  <ColorSwatch color={cat.color} className="h-2.5 w-2.5" />
-                  {cat.name}
-                </div>
-                {catTasks.map((task) => (
-                  <button
-                    key={task.id}
-                    onClick={() => handleSelect(task)}
-                    className="w-full rounded px-3 py-2 text-left text-sm hover:bg-accent"
-                  >
-                    {task.name}
-                  </button>
-                ))}
-              </div>
+              <button
+                key={task.id}
+                onClick={() => handleSelect(task)}
+                className="w-full rounded px-3 py-2 text-left text-sm hover:bg-accent flex items-center gap-2"
+              >
+                {category && (
+                  <ColorSwatch color={category.color} className="h-2.5 w-2.5 shrink-0" />
+                )}
+                <span className="text-muted-foreground">{category?.name}</span>
+                <span className="text-muted-foreground">–</span>
+                <span>{task.name}</span>
+              </button>
             );
           })}
           {filtered.length === 0 && (
